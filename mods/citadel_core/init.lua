@@ -3,7 +3,7 @@
 
 cc = "citadel_core:"
 citadel = {}
-citadel.schems = {"schemfinal1.mts", "schemfinal2.mts","schemfinal3.mts","schemfinal4.mts","schemfinal5.mts"}
+citadel.schems = {"schemfinal1alt.mts", "schemfinal2.mts","schemfinal3.mts","schemfinal4.mts","schemfinal5.mts"}
 citadel.ghost_data = {
 	{1,{x=16.5,y=3,z=22.5},{5,6,7,8}},
 	{2,{x=12.5,y=10,z=33.5},{17,18,19,20}},
