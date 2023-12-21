@@ -1,0 +1,2 @@
+# Minimum emissive light level below which the block is made to emit said light level.  Defaults to 4.  For gameplay I recommend 4, for debugging mods or exploring underground worlds in creative I recommend 9.  Will work on all blocks including under ground.  Enjoy!  Min 0 and Max 14.  WARNING you may have to run fixlight on loaded areas after you remove it or change the light level.  Feel free to create a new map to experiment on :)
+light_level (Minimum light level) int 4
