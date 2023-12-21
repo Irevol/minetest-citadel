@@ -139,7 +139,7 @@ end
 function citadel.unrecord_plant(pos, plant_type)
 	local plant_data = minetest.deserialize(data:get_string("plant_data"))
 	for i, plant in pairs(plant_data) do
-	    if plant[1] == pos and plant[2] == plant_type then
+	    if plant[1].x == pos.x and plant[1].y == pos.y and plant[1].z == pos.z and plant[2] == plant_type then
 			table.remove(plant_data, i)
 			data:set_string("plant_data", minetest.serialize(plant_data))
 			break
