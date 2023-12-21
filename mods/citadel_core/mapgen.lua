@@ -1,5 +1,5 @@
 
-minetest.register_on_joinplayer(function(ObjectRef, last_login)
+minetest.register_on_newplayer(function(ObjectRef)
 	local id = ObjectRef:hud_add({
 		hud_elem_type = "image",
 		position = {x=0.5, y=0.5},
