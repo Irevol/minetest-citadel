@@ -1,0 +1,6 @@
+ambient_light is licensed under GNU Lesser General Public License, 2.1
+citadel_core is licensed under the MIT License and CC-BY-SA 4.0 
+player_api is licensed under GNU Lesser General Public License, version 2.1
+sfinv is licensed under the MIT License and CC-BY-SA 3.0 
+xpanes is licensed under the MIT License and CC-BY-SA 3.0 
+All other assets that are not part of a mod are licensed under CC-BY-SA 4.0. 
