@@ -16,7 +16,7 @@ minetest.register_node(cc.."acorn", {
 	groups = {cracky=2,breakable=1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y-1
-		if minetest.get_node(pos).name == "air" then
+		if minetest.get_node(pos).name == "air" or minetest.get_item_group(minetest.get_node(pos).name, "breakable") ~= 0 then
 			pos.y = pos.y+1
 			minetest.set_node(pos, {name = "air"})
 			return true
@@ -39,7 +39,7 @@ minetest.register_node(cc.."big_acorn", {
 	groups = {cracky=2,breakable=1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y-1
-		if minetest.get_node(pos).name == "air" then
+		if minetest.get_node(pos).name == "air" or minetest.get_item_group(minetest.get_node(pos).name, "breakable") ~= 0 then
 			pos.y = pos.y+1
 			minetest.set_node(pos, {name = "air"})
 			return true
@@ -63,7 +63,7 @@ minetest.register_node(cc.."vine_bud", {
 	groups = {cracky=2,breakable=1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y+1
-		if minetest.get_node(pos).name == "air" then
+		if minetest.get_node(pos).name == "air" or minetest.get_item_group(minetest.get_node(pos).name, "breakable") ~= 0 then
 			pos.y = pos.y-1
 			minetest.set_node(pos, {name = "air"})
 			return true
@@ -96,7 +96,7 @@ minetest.register_node(cc.."bamboo_shoot", {
 	groups = {cracky=2,breakable=1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y-1
-		if minetest.get_node(pos).name == "air" then
+		if minetest.get_node(pos).name == "air" or minetest.get_item_group(minetest.get_node(pos).name, "breakable") ~= 0 then
 			pos.y = pos.y+1
 			minetest.set_node(pos, {name = "air"})
 			return true
