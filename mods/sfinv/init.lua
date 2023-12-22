@@ -2,10 +2,15 @@
 
 dofile(minetest.get_modpath("sfinv") .. "/api.lua")
 
--- Load support for MT game translation.
-local S = minetest.get_translator("sfinv")
-
-sfinv.register_page("sfinv:crafting", {
+sfinv.register_page("sfinv:inventory", {
+	title = "Inventory",
+	get = function(self, player, context)
+		return sfinv.make_formspec(player, context, [[
+				
+			]], true)
+	end
+})
+sfinv.register_page("sfinv:tips", {
 	title = "Tips",
 	get = function(self, player, context)
 		return sfinv.make_formspec(player, context, [[
@@ -16,6 +21,6 @@ sfinv.register_page("sfinv:crafting", {
 				label[0.1,2.5;Time traveling into a wall is unlikely to work.]
 				label[0.1,3;Plants that have rubble fall on them are likely to die]
 				label[0.1,3.5;If you're stuck, contact Irevol via ContentDB or the fourms (: This game is kinda hard]
-			]], true)
+			]], false, "size[10,9.1]")
 	end
 })
