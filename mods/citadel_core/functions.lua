@@ -14,6 +14,7 @@ function citadel.change_time_period(time_period)
 			if ghost[1] == time_period then
 				--minetest.chat_send_all("gg")
 				minetest.add_entity(ghost[2], cc.."ghost", minetest.serialize(ghost[3]))
+				gobj:set_properties({_images = minetest.serialize(ghost[3])})
 			end
 		end
 		--crystal
