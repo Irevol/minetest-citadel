@@ -197,47 +197,70 @@ function citadel.register_node(name)
 	})
 end
 
-function citadel.hud(image, wait, scale, ypos, interval)
-	if not scale then
-		scale = 10
+local huds = {}
+local function processhud(player, key, hud)
+	local totaltime = hud.wait + hud.fadetime * 2
+	if hud.time >= totaltime then
+		if hud.id then player:hud_remove(hud.id) end
+		huds[key] = nil
+		return
 	end
-	if not wait then
-		wait = 2
+
+	local opacity = 1
+	if hud.time < hud.fadetime then
+		opacity = hud.time / hud.fadetime
+	elseif hud.time > totaltime - hud.fadetime then
+		opacity = (totaltime - hud.time) / hud.fadetime
 	end
-	if not interval then
-		interval = 0.025
+	local image
+	local alpha = math.ceil(opacity * 16) * 16
+	if alpha <= 0 then
+		image = "blank.png"
+	elseif alpha >= 255 then
+		image = hud.image
+	else
+		image = hud.image .. "^[opacity:" .. alpha
 	end
-	if not ypos then
-		ypos = 0.5
+
+	if not hud.id then
+		hud.id = player:hud_add({
+			hud_elem_type = "image",
+			position = {x=0.5, y=hud.ypos},
+			-- Top left corn2er position of element
+			name = "image",
+			scale = {x = hud.scale, y = hud.scale},
+			text = image,
+			direction = 0,
+			-- Direction: 0: left-right, 1: right-left, 2: top-bottom, 3: bottom-top
+			alignment = {x=0, y=0},
+			offset = {x=0, y=0},
+			z_index = 100,
+			-- Z index: lower z-index HUDs are displayed behind higher z-index HUDs
+			style = 2,
+		})
+		hud.displayed = image
+	elseif image ~= hud.displayed then
+		player:hud_change(hud.id, "text", image)
+		hud.displayed = image
 	end
+end
+minetest.register_globalstep(function(dtime)
 	local player = minetest.get_player_by_name("singleplayer")
-	local hud_id = player:hud_add({
-		hud_elem_type = "image",
-		position = {x=0.5, y=ypos},
-		-- Top left corner position of element
-		name = "image",
-		scale = {x = scale, y = scale},
-		text = image.."^[opacity:0";
-		direction = 0,
-		-- Direction: 0: left-right, 1: right-left, 2: top-bottom, 3: bottom-top
-		alignment = {x=0, y=0},
-		offset = {x=0, y=0},
-		z_index = 100,
-		-- Z index: lower z-index HUDs are displayed behind higher z-index HUDs
-		style = 2,
-	})
-	for opacity = 0,255,interval do 
-		player:hud_change(hud_id, "text", image.."^[opacity:"..opacity)
+	for key, hud in pairs(huds) do
+		hud.time = hud.time + dtime
+		processhud(player, key, hud)
 	end
-	minetest.after(wait, 
-	--can someone explain how to make a "sleep" function?
-		function(player,hud_id)
-			for opacity = 255,0,-interval do 
-				player:hud_change(hud_id, "text", image.."^[opacity:"..opacity)
-			end
-			player:hud_remove(hud_id)
-		end,
-	player, hud_id)
+end)
+
+function citadel.hud(image, wait, scale, ypos, rate)
+	huds[image] = {
+		time = 0,
+		image = image,
+		wait = wait or 2,
+		fadetime = rate and rate * 10 or 1,
+		scale = scale or 10,
+		ypos = ypos or 0.5
+	}
 end
 
 function citadel.endgame()

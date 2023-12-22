@@ -1,5 +1,4 @@
-
-minetest.register_on_newplayer(function(ObjectRef)
+minetest.register_on_joinplayer(function(ObjectRef)
 	local id = ObjectRef:hud_add({
 		hud_elem_type = "image",
 		position = {x=0.5, y=0.5},
@@ -13,6 +12,9 @@ minetest.register_on_newplayer(function(ObjectRef)
 		style = 2,
 	})
 	data:set_int("sepia_hud_id", id)
+end)
+
+minetest.register_on_newplayer(function(ObjectRef)
 	data:set_string("ended", "")
 	data:set_string("plant_data", minetest.serialize({ {{x=37,y=7,z=19},"vine",3},{{x=35,y=2,z=32},"bamboo",2},{{x=3,y=2,z=19},"tree",1},{{x=43,y=1,z=2},"big_tree",3} }))
 	--ObjectRef:override_day_night_ratio(1)
