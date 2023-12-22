@@ -184,8 +184,8 @@ minetest.register_lbm({
 })
 minetest.register_abm({
     label = "delete",
-	interval = 1,
-	chance = 1,
+    interval = 0.5,
+    chance = 1,
     min_y = -200,
     max_y = 200,
     nodenames = {cc.."pendant",cc.."coin",cc.."backward_stone_node",cc.."foward_stone_node",cc.."break_stone_node",cc.."unlock_stone_node",cc.."totem",cc.."scepter",cc.."sigil",cc.."amulet",cc.."tablet"},
