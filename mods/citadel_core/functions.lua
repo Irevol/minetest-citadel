@@ -155,7 +155,7 @@ function citadel.go_foward()
 	if time_period > 5 then
 		return false
 	end
-	citadel.hud("flash.png", 0.1, 0.05)
+	citadel.hud("flash", "flash.png", 0.1, 0.05)
 	minetest.after(0.5, function(time_period)
 		citadel.change_time_period(time_period)
 		if minetest.get_node(minetest.get_player_by_name("singleplayer"):get_pos()).name ~= "air" then 
@@ -172,7 +172,7 @@ function citadel.go_backward()
 	if time_period < 1 then
 		return false
 	end
-	citadel.hud("flash.png", 0.1, 0.05)
+	citadel.hud("flash", "flash.png", 0.1, 0.05)
 	minetest.after(0.5, function(time_period)
 		citadel.change_time_period(time_period)
 		if minetest.get_node(minetest.get_player_by_name("singleplayer"):get_pos()).name ~= "air" then 
@@ -252,12 +252,22 @@ minetest.register_globalstep(function(dtime)
 	end
 end)
 
-function citadel.hud(image, wait, rate)
-	local old = huds[image]
+function citadel.hud(key, image, wait, rate)
+	local old = huds[key]
 	if old and old.id then
-		minetest.get_player_by_name("singleplayer"):hud_remove(old.id)
+		-- Move immediate fade-out to a new
+		-- entry that always has a new unique key
+		huds[{}] = old.time >= (old.wait + old.fadetime)
+		and old -- if already fading, keep fading
+		or {
+			id = old.id,
+			time = old.fadetime,
+			image = old.image,
+			fadetime = old.fadetime,
+			wait = 0
+		}
 	end
-	huds[image] = {
+	huds[key] = {
 		time = 0,
 		image = image,
 		wait = wait or 2,
@@ -288,7 +298,7 @@ end
 function citadel.endgame()
 	--citadel.change_time_period(time_period)
 	local player = minetest.get_player_by_name("singleplayer")
-	citadel.hud("white_hud.png")
+	citadel.hud("white", "white_hud.png")
 	data:set_string("endpos", minetest.serialize(player:get_pos()))
 	minetest.place_schematic({x=0,y=-50,z=0}, minetest.get_modpath("citadel_core").."/schems/endroom.mts", nil, nil, true, nil)
 	minetest.add_entity({x=10,y=-47,z=10}, cc.."ghost", minetest.serialize({50}))

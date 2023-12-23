@@ -93,7 +93,7 @@ minetest.register_node(cc.."trigger", {
 			if obj:get_player_name() == "singleplayer" then
 				local img = "title.png^[colorize:#1b3c7a:100"
 				img = citadel.shadow(img, 256, 144, 1)
-				citadel.hud(img, 4)
+				citadel.hud("title", img, 4)
 				minetest.set_node(pos, {name = "air"})
 				return false
 			end

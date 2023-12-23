@@ -24,7 +24,7 @@ minetest.register_on_newplayer(function(ObjectRef)
 	ObjectRef:set_sky({base_color ="#000000", clouds = false, sky_color={dawn_sky = "#000000", day_sky="#000000",night_sky="#000000",dawn_horizon = "#000000",night_horizon="#000000", day_horizon="#000000"}})
 	ObjectRef:set_physics_override({jump=1.1})
 	--ObjectRef:hud_set_flags(hud_flags)
-	--citadel.hud("title.png", 4)
+	--citadel.hud("title", "title.png", 4)
 end)
 
 -- --from Glitch
