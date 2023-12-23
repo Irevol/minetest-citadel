@@ -43,6 +43,9 @@ minetest.register_entity(cc.."ghost", {
 		
 		self._image_index = self._image_index + 1
 	end,
+	get_staticdata = function(self)
+		return minetest.serialize(self._images)
+	end,
 	on_activate = function(self, staticdata, dtime_s)
 	    self.object:set_texture_mod("^[opacity:100")
 		self.object:set_velocity({x=0,y=0.1,z=0})
