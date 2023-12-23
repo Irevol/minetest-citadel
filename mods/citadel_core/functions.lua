@@ -253,6 +253,10 @@ minetest.register_globalstep(function(dtime)
 end)
 
 function citadel.hud(image, wait, rate)
+	local old = huds[image]
+	if old and old.id then
+		minetest.get_player_by_name("singleplayer"):hud_remove(old.id)
+	end
 	huds[image] = {
 		time = 0,
 		image = image,
