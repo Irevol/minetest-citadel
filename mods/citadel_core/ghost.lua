@@ -20,7 +20,7 @@ minetest.register_entity(cc.."ghost", {
 	_factor = 1,
 	_by_player = false,
 	on_rightclick = function(self, clicker)
-		if self._image_index > #self._images then
+		if (not self._image_index) or (self._image_index > #self._images) then
 			self._image_index = 1
 		end
 		
