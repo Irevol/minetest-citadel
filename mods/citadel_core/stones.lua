@@ -75,7 +75,7 @@ minetest.register_craftitem(cc.."unlock_stone", {
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
 		if pointed_thing.type == "node" then
-			minetest.chat_send_all(minetest.get_node(pointed_thing.under).name)
+			--minetest.chat_send_all(minetest.get_node(pointed_thing.under).name)
 			if pointed_thing.type == "node" and (minetest.get_node(pointed_thing.under).name == "xpanes:bar_flat" or minetest.get_node(pointed_thing.under).name == "xpanes:bar")then
 				local pos = pointed_thing.under
 				for y = -2,2 do
