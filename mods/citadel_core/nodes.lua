@@ -91,7 +91,9 @@ minetest.register_node(cc.."trigger", {
 		local objs = minetest.get_objects_inside_radius(pos, 0.9)
 		for _, obj in pairs(objs) do 
 			if obj:get_player_name() == "singleplayer" then
-				citadel.hud("title.png^[colorize:#1b3c7a:100", 4)
+				local img = "title.png^[colorize:#1b3c7a:100"
+				img = citadel.shadow(img, 256, 144, 1)
+				citadel.hud(img, 4)
 				minetest.set_node(pos, {name = "air"})
 				return false
 			end

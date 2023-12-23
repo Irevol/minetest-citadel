@@ -24,7 +24,9 @@ minetest.register_entity(cc.."ghost", {
 			self._image_index = 1
 		end
 		
-		citadel.hud("text_overlay.png^dia"..self._images[self._image_index]..".png^[colorize:#ffffff:200", 5)
+		local img = "text_overlay.png^dia"..self._images[self._image_index]..".png^[colorize:#ffffff:200"
+		img = citadel.shadow(img, 592, 336)
+		citadel.hud(img, 5)
 
 		--endgame stuff
 		if self._images[self._image_index] == 50 then

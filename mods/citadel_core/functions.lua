@@ -261,6 +261,26 @@ function citadel.hud(image, wait, rate)
 	}
 end
 
+local function txresc(s)
+	return s:gsub("\\", "\\\\"):gsub("%^", "\\^"):gsub(":", "\\:")
+end
+function citadel.shadow(image, w, h, offset, alpha)
+	offset = offset or 2
+	alpha = alpha or 64
+	local shad = txresc(image .. "^[multiply:#000000FF^[opacity:" .. alpha)
+	local t = {"[combine:" .. (w + offset * 2) .. "x" .. (h + offset * 2)}
+	for dx = 0, offset * 2, offset do
+		for dy = 0, offset * 2, offset do
+			if dx ~= offset or dy ~= offset then
+				t[#t + 1] = dx .. "," .. dy .. "=" .. shad
+			end
+		end
+	end
+	t[#t + 1] = offset .. "," .. offset .. "=" .. txresc(image)
+	print(table.concat(t, ":"))
+	return table.concat(t, ":")
+end
+
 function citadel.endgame()
 	--citadel.change_time_period(time_period)
 	local player = minetest.get_player_by_name("singleplayer")
