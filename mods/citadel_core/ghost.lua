@@ -24,7 +24,9 @@ minetest.register_entity(cc.."ghost", {
 			self._image_index = 1
 		end
 		
-		citadel.hud("text_overlay.png^dia"..self._images[self._image_index]..".png^[colorize:#ffffff:200", 5, 2, 0.35)
+		local img = "text_overlay.png^dia"..self._images[self._image_index]..".png^[colorize:#ffffff:200"
+		img = citadel.shadow(img, 592, 336)
+		citadel.hud("ghost", img, 5)
 
 		--endgame stuff
 		if self._images[self._image_index] == 50 then
@@ -33,7 +35,7 @@ minetest.register_entity(cc.."ghost", {
 				self.object:set_velocity({x=0,y=10,z=0}) 
 			end, self)
 			minetest.after(5, function(self) self.object:remove() end, self)
-			minetest.after(7, function() citadel.hud("white_hud.png") end)
+			minetest.after(7, function() citadel.hud("white", "white_hud.png") end)
 			minetest.after(8, function()
 				local player = minetest.get_player_by_name("singleplayer")
 				player:set_pos(minetest.deserialize(data:get_string("endpos")))

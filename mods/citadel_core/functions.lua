@@ -155,7 +155,7 @@ function citadel.go_foward()
 	if time_period > 5 then
 		return false
 	end
-	citadel.hud("flash.png", 0.1, 10, 0.5, 0.05)
+	citadel.hud("flash", "flash.png", 0.1, 0.05)
 	minetest.after(0.5, function(time_period)
 		citadel.change_time_period(time_period)
 		if minetest.get_node(minetest.get_player_by_name("singleplayer"):get_pos()).name ~= "air" then 
@@ -172,7 +172,7 @@ function citadel.go_backward()
 	if time_period < 1 then
 		return false
 	end
-	citadel.hud("flash.png", 0.1, 10, 0.5, 0.05)
+	citadel.hud("flash", "flash.png", 0.1, 0.05)
 	minetest.after(0.5, function(time_period)
 		citadel.change_time_period(time_period)
 		if minetest.get_node(minetest.get_player_by_name("singleplayer"):get_pos()).name ~= "air" then 
@@ -225,10 +225,10 @@ local function processhud(player, key, hud)
 	if not hud.id then
 		hud.id = player:hud_add({
 			hud_elem_type = "image",
-			position = {x=0.5, y=hud.ypos},
+			position = {x=0.5, y=0.5},
 			-- Top left corn2er position of element
 			name = "image",
-			scale = {x = hud.scale, y = hud.scale},
+			scale = {x = -100, y = -100},
 			text = image,
 			direction = 0,
 			-- Direction: 0: left-right, 1: right-left, 2: top-bottom, 3: bottom-top
@@ -252,21 +252,53 @@ minetest.register_globalstep(function(dtime)
 	end
 end)
 
-function citadel.hud(image, wait, scale, ypos, rate)
-	huds[image] = {
+function citadel.hud(key, image, wait, rate)
+	local old = huds[key]
+	if old and old.id then
+		-- Move immediate fade-out to a new
+		-- entry that always has a new unique key
+		huds[{}] = old.time >= (old.wait + old.fadetime)
+		and old -- if already fading, keep fading
+		or {
+			id = old.id,
+			time = old.fadetime,
+			image = old.image,
+			fadetime = old.fadetime,
+			wait = 0
+		}
+	end
+	huds[key] = {
 		time = 0,
 		image = image,
 		wait = wait or 2,
-		fadetime = rate and rate * 10 or 1,
-		scale = scale or 10,
-		ypos = ypos or 0.5
+		fadetime = rate and rate * 10 or 1
 	}
+end
+
+local function txresc(s)
+	return s:gsub("\\", "\\\\"):gsub("%^", "\\^"):gsub(":", "\\:")
+end
+function citadel.shadow(image, w, h, offset, alpha)
+	offset = offset or 2
+	alpha = alpha or 64
+	local shad = txresc(image .. "^[multiply:#000000FF^[opacity:" .. alpha)
+	local t = {"[combine:" .. (w + offset * 2) .. "x" .. (h + offset * 2)}
+	for dx = 0, offset * 2, offset do
+		for dy = 0, offset * 2, offset do
+			if dx ~= offset or dy ~= offset then
+				t[#t + 1] = dx .. "," .. dy .. "=" .. shad
+			end
+		end
+	end
+	t[#t + 1] = offset .. "," .. offset .. "=" .. txresc(image)
+	print(table.concat(t, ":"))
+	return table.concat(t, ":")
 end
 
 function citadel.endgame()
 	--citadel.change_time_period(time_period)
 	local player = minetest.get_player_by_name("singleplayer")
-	citadel.hud("white_hud.png")
+	citadel.hud("white", "white_hud.png")
 	data:set_string("endpos", minetest.serialize(player:get_pos()))
 	minetest.place_schematic({x=0,y=-50,z=0}, minetest.get_modpath("citadel_core").."/schems/endroom.mts", nil, nil, true, nil)
 	minetest.add_entity({x=10,y=-47,z=10}, cc.."ghost", minetest.serialize({50}))
