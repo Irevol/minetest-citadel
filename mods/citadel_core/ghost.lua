@@ -1,4 +1,35 @@
-local soundids = {}
+local dia_timing = {
+	[1] = 6.170,
+	[2] = 4.216,
+	[3] = 6.109,
+	[4] = 4.302,
+	[5] = 5.726,
+	[6] = 3.227,
+	[7] = 3.562,
+	[8] = 3.227,
+	[9] = 5.287,
+	[10] = 4.874,
+	[11] = 7.473,
+	[12] = 4.519,
+	[13] = 6.734,
+	[14] = 4.342,
+	[15] = 3.278,
+	[16] = 4.402,
+	[17] = 2.539,
+	[18] = 3.520,
+	[19] = 4.231,
+	[20] = 5.558,
+	[21] = 9.266,
+	[22] = 6.112,
+	[23] = 5.061,
+	[24] = 9.914,
+	[50] = 7.534,
+}
+for k, v in pairs(dia_timing) do
+	dia_timing[k] = v - 22.5 -- ignore trailing reverb
+end
+
+local ghost_sound_ids = {}
 
 minetest.register_entity(cc.."ghost", {
 	initial_properties = {
@@ -28,17 +59,17 @@ minetest.register_entity(cc.."ghost", {
 		local diaid = self._images[self._image_index]
 
 		-- Smoothly stop old ghost sounds
-		for k in pairs(soundids) do
+		for k in pairs(ghost_sound_ids) do
 			minetest.sound_fade(k, 2, 0)
 		end
-		soundids = {}
+		ghost_sound_ids = {}
 
 		-- Play ghost sounds with a spread out spatial effect
 		-- (start_time in MT 5.8+) for a more other-worldy effect
 		local qty = 3
 		local offs = math.random() * math.pi * 2
 		for i = 1, qty do
-			soundids[minetest.sound_play("dia"..diaid, {
+			ghost_sound_ids[minetest.sound_play("dia"..diaid, {
 				pos = vector.offset(self.object:get_pos(),
 					math.sin(i * 2 / qty * math.pi + offs) * 2,
 					1.8,
@@ -50,7 +81,7 @@ minetest.register_entity(cc.."ghost", {
 
 		local img = "text_overlay.png^dia"..diaid..".png^[colorize:#ffffff:200"
 		img = citadel.shadow(img, 592, 336)
-		citadel.hud("ghost", img, 5)
+		citadel.hud("ghost", img, dia_timing[diaid])
 
 		--endgame stuff
 		if diaid == 50 then
