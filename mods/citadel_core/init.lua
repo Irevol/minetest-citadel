@@ -46,7 +46,7 @@ minetest.override_item("", {
 minetest.item_drop = function(itemstack, dropper, pos)
 	return itemstack
 end
---no cheating! At least not without a little bit of effort
-minetest.registered_privileges["fly"] = nil
-minetest.registered_privileges["noclip"] = nil
-minetest.registered_privileges["teleport"] = nil
+-- --no cheating! At least not without a little bit of effort
+-- minetest.registered_privileges["fly"] = nil
+-- minetest.registered_privileges["noclip"] = nil
+-- minetest.registered_privileges["teleport"] = nil

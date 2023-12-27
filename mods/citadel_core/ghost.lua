@@ -1,3 +1,4 @@
+local soundids = {}
 
 minetest.register_entity(cc.."ghost", {
 	initial_properties = {
@@ -23,13 +24,36 @@ minetest.register_entity(cc.."ghost", {
 		if (not self._image_index) or (self._image_index > #self._images) then
 			self._image_index = 1
 		end
-		
-		local img = "text_overlay.png^dia"..self._images[self._image_index]..".png^[colorize:#ffffff:200"
+ 
+		local diaid = self._images[self._image_index]
+
+		-- Smoothly stop old ghost sounds
+		for k in pairs(soundids) do
+			minetest.sound_fade(k, 2, 0)
+		end
+		soundids = {}
+
+		-- Play ghost sounds with a spread out spatial effect
+		-- (start_time in MT 5.8+) for a more other-worldy effect
+		local qty = 3
+		local offs = math.random() * math.pi * 2
+		for i = 1, qty do
+			soundids[minetest.sound_play("dia"..diaid, {
+				pos = vector.offset(self.object:get_pos(),
+					math.sin(i * 2 / qty * math.pi + offs) * 2,
+					1.8,
+					math.cos(i * 2 / qty * math.pi + offs) * 2),
+				gain = 2,
+				start_time = i / qty * 0.05
+			})] = true
+		end
+
+		local img = "text_overlay.png^dia"..diaid..".png^[colorize:#ffffff:200"
 		img = citadel.shadow(img, 592, 336)
 		citadel.hud("ghost", img, 5)
 
 		--endgame stuff
-		if self._images[self._image_index] == 50 then
+		if diaid == 50 then
 			minetest.after(4, function(self) 
 				self._factor = 0
 				self.object:set_velocity({x=0,y=10,z=0}) 
