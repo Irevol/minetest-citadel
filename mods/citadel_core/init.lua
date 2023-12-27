@@ -14,7 +14,7 @@ citadel.ghost_data = {
  }
 citadel.crystal_pos = {x=22.5, y=30.5, z = 22.5}
 citadel.sounds = {
-	{file="background", gain=1},
+	{file="background", gain=1, offset=true},
 	{file="ghost1", gain=0.6},
 	{file="ghost2", gain=0.6}
 }
@@ -46,7 +46,7 @@ minetest.override_item("", {
 minetest.item_drop = function(itemstack, dropper, pos)
 	return itemstack
 end
---no cheating! At least not without a little bit of effort
-minetest.registered_privileges["fly"] = nil
-minetest.registered_privileges["noclip"] = nil
-minetest.registered_privileges["teleport"] = nil
+-- --no cheating! At least not without a little bit of effort
+-- minetest.registered_privileges["fly"] = nil
+-- minetest.registered_privileges["noclip"] = nil
+-- minetest.registered_privileges["teleport"] = nil
