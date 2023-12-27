@@ -14,7 +14,7 @@ citadel.ghost_data = {
  }
 citadel.crystal_pos = {x=22.5, y=30.5, z = 22.5}
 citadel.sounds = {
-	{file="background", gain=1},
+	{file="background", gain=1, offset=true},
 	{file="ghost1", gain=0.6},
 	{file="ghost2", gain=0.6}
 }
