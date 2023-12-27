@@ -26,7 +26,7 @@ local dia_timing = {
 	[50] = 7.534,
 }
 for k, v in pairs(dia_timing) do
-	dia_timing[k] = v - 2.5 -- ignore trailing reverb
+	dia_timing[k] = v - 1.5 -- ignore trailing reverb
 end
 
 local ghost_sound_ids = {}
