@@ -26,7 +26,7 @@ local dia_timing = {
 	[50] = 7.534,
 }
 for k, v in pairs(dia_timing) do
-	dia_timing[k] = v - 22.5 -- ignore trailing reverb
+	dia_timing[k] = v - 2.5 -- ignore trailing reverb
 end
 
 local ghost_sound_ids = {}
@@ -64,6 +64,8 @@ minetest.register_entity(cc.."ghost", {
 		end
 		ghost_sound_ids = {}
 
+		citadel.audio_duck(dia_timing[diaid])
+ 
 		-- Play ghost sounds with a spread out spatial effect
 		-- (start_time in MT 5.8+) for a more other-worldy effect
 		local qty = 3
