@@ -87,13 +87,13 @@ minetest.register_entity(cc.."ghost", {
 
 		--endgame stuff
 		if diaid == 50 then
-			minetest.after(4, function(self) 
+			minetest.after(5, function(self) 
 				self._factor = 0
-				self.object:set_velocity({x=0,y=10,z=0}) 
+				self.object:set_velocity({x=0,y=10,z=0})
 			end, self)
-			minetest.after(5, function(self) self.object:remove() end, self)
-			minetest.after(7, function() citadel.hud("white", "white_hud.png") end)
-			minetest.after(8, function()
+			minetest.after(6, function() minetest.clear_objects() end)
+			minetest.after(8, function() citadel.hud("white", "white_hud.png") end)
+			minetest.after(9, function()
 				local player = minetest.get_player_by_name("singleplayer")
 				player:set_pos(minetest.deserialize(data:get_string("endpos")))
 			end)
