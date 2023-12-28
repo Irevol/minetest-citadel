@@ -64,7 +64,7 @@ minetest.register_entity(cc.."ghost", {
 		end
 		ghost_sound_ids = {}
 
-		citadel.audio_duck(dia_timing[diaid])
+		self._audio_duck_time = dia_timing[diaid]
  
 		-- Play ghost sounds with a spread out spatial effect
 		-- (start_time in MT 5.8+) for a more other-worldy effect
@@ -87,16 +87,15 @@ minetest.register_entity(cc.."ghost", {
 
 		--endgame stuff
 		if diaid == 50 then
-			minetest.after(4, function(self) 
+			minetest.after(5, function(self) 
 				self._factor = 0
-				self.object:set_velocity({x=0,y=10,z=0}) 
+				self.object:set_velocity({x=0,y=10,z=0})
 			end, self)
-			minetest.after(5, function(self) self.object:remove() end, self)
-			minetest.after(7, function() citadel.hud("white", "white_hud.png") end)
-			minetest.after(8, function()
+			minetest.after(6, function() minetest.clear_objects() end)
+			minetest.after(8, function() citadel.hud("white", "white_hud.png") end)
+			minetest.after(9, function()
 				local player = minetest.get_player_by_name("singleplayer")
 				player:set_pos(minetest.deserialize(data:get_string("endpos")))
-				citadel.set_ambience(1)
 			end)
 		end
 		
@@ -112,6 +111,12 @@ minetest.register_entity(cc.."ghost", {
 		self.object:set_armor_groups({immortal = 1})
 	end,
 	on_step = function(self, dtime_s)
+		if self._audio_duck_time then
+			self._audio_duck_time = self._audio_duck_time - dtime_s
+			if self._audio_duck_time <= 0 then
+				self._audio_duck_time = nil
+			end
+		end
 		
 		self._anim_timer = self._anim_timer + dtime_s*self._factor
 		if self._anim_timer > 2 then
@@ -120,26 +125,15 @@ minetest.register_entity(cc.."ghost", {
 		end
 
 		local objects = minetest.get_objects_inside_radius(self.object:get_pos(), 5)
-		local by_player = false
 		for o=1, #objects do
 			local obj = objects[o]
 			if obj and obj:is_player() then
-				by_player = true
 				local dir = vector.direction(self.object:get_pos(),obj:get_pos())
 				local yaw = minetest.dir_to_yaw(dir)
 				if yaw then
 					self.object:set_yaw(yaw)
 					break
 				end
-			end
-		end
-		if data:get_string("ended") == "" then
-			if by_player and not self._by_player then
-				self._by_player = true
-				citadel.set_ambience(2)
-			elseif not by_player and self._by_player then
-				self._by_player = false
-				citadel.set_ambience(1)
 			end
 		end
 	end,

@@ -306,5 +306,4 @@ function citadel.endgame()
 	minetest.after(2, function(player) player:set_pos({x=3,y=-40,z=3}) end, player)
 	data:set_string("ended", "yes")
 	minetest.sound_play("crack", {to_player = "singleplayer"}, true)
-	citadel.set_ambience(3)
 end
