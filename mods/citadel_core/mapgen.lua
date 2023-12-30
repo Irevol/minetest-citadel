@@ -1,5 +1,5 @@
-minetest.register_on_joinplayer(function(player)
-	citadel.sepia_hud_id = player:hud_add({
+local function sepia_hud_create(player)
+	citadel.sepia_hud_id = citadel.sepia_hud_id or player:hud_add({
 		hud_elem_type = "image",
 		position = {x=0.5, y=0.5},
 		name = "sepia",
@@ -11,6 +11,10 @@ minetest.register_on_joinplayer(function(player)
 		z_index = 200,
 		style = 2,
 	})
+end
+
+minetest.register_on_joinplayer(function(player)
+	sepia_hud_create(player)
 	player:set_armor_groups({
 		immortal = 1,
 		fall_damage_add_percent = -100
@@ -25,13 +29,14 @@ minetest.register_on_joinplayer(function(player)
 end)
 
 
-minetest.register_on_newplayer(function(ObjectRef)
+minetest.register_on_newplayer(function(player)
 	data:set_string("ended", "")
 	data:set_string("plant_data", minetest.serialize({ {{x=37,y=7,z=19},"vine",3},{{x=35,y=2,z=32},"bamboo",2},{{x=3,y=2,z=19},"tree",1},{{x=43,y=1,z=2},"big_tree",3} }))
-	--ObjectRef:override_day_night_ratio(1)
+	--player:override_day_night_ratio(1)
 	minetest.place_schematic({x=-9,y=-1,z=-8}, minetest.get_modpath("citadel_core").."/schems/arena.mts", nil, nil, true, nil)
+	sepia_hud_create(player)
 	citadel.change_time_period(5)
-	ObjectRef:set_pos({x=40,y=7,z=-5})
+	player:set_pos({x=40,y=7,z=-5})
 end)
 
 -- --from Glitch
