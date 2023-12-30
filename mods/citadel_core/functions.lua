@@ -23,8 +23,8 @@ function citadel.change_time_period(time_period)
 
 	--sepia
 	local player = minetest.get_player_by_name("singleplayer")
-	local id = data:get_int("sepia_hud_id")
-	player:hud_change(id, "text", "sepia.png^[opacity:".. 15*(5-time_period))
+	player:hud_change(citadel.sepia_hud_id, "text",
+		"sepia.png^[opacity:".. 15*(5-time_period))
 	
 	local plant_data = minetest.deserialize(data:get_string("plant_data"))
 	

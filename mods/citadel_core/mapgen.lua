@@ -1,5 +1,5 @@
 minetest.register_on_joinplayer(function(player)
-	local id = player:hud_add({
+	citadel.sepia_hud_id = player:hud_add({
 		hud_elem_type = "image",
 		position = {x=0.5, y=0.5},
 		name = "sepia",
@@ -11,7 +11,6 @@ minetest.register_on_joinplayer(function(player)
 		z_index = 200,
 		style = 2,
 	})
-	data:set_int("sepia_hud_id", id)
 	player:set_armor_groups({
 		immortal = 1,
 		fall_damage_add_percent = -100
