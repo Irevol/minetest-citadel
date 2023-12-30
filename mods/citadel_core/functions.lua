@@ -184,16 +184,33 @@ function citadel.go_backward()
 	return true
 end
 
-function citadel.register_node(name)
+local gains_base = {
+	footstep = 0.3,
+	dig = 0.5
+}
+function citadel.nodecore_sounds(name)
+	local t = {}
+	for k, v in pairs(gains_base) do
+		t[k] = {
+			name = "nodecore_" .. name,
+			gain = v,
+		}
+	end
+	return t
+end
+
+function citadel.register_node(name, sound)
 	minetest.register_node(cc..name, {
 		description = name,
 		tiles = {name..".png"},
 		groups = {cracky=2},
+		sounds = citadel.nodecore_sounds(sound or "stony"),
 	})
 	minetest.register_node(cc..name.."_cracked", {
 		description = name.." cracked",
 		tiles = {name..".png^cracks.png"},
 		groups = {cracky=2},
+		sounds = citadel.nodecore_sounds(sound or "stony"),
 	})
 end
 
