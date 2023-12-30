@@ -148,7 +148,19 @@ function citadel.unrecord_plant(pos, plant_type)
 	end
 end
 
--- lua has no +=? what?
+function citadel.check_player_collided(player)
+	local pos = player:get_pos()
+	for dy = 0, 1.9 do
+		for dx = -0.3, 0.3, 0.6 do
+			for dz = -0.3, 0.3, 0.6 do
+				local p = vector.offset(pos, dx, dy, dz)
+				if minetest.get_node(p).name ~= "air" then return true end
+			end
+		end
+	end
+end
+
+-- lua has no +=? what? IKR
 function citadel.go_foward()
 	local time_period = data:get_int("time_period")
 	time_period = time_period+1
@@ -158,7 +170,7 @@ function citadel.go_foward()
 	citadel.hud("flash", "flash.png", 0.1, 0.05)
 	minetest.after(0.5, function(time_period)
 		citadel.change_time_period(time_period)
-		if minetest.get_node(minetest.get_player_by_name("singleplayer"):get_pos()).name ~= "air" then 
+		if citadel.check_player_collided(minetest.get_player_by_name("singleplayer")) then
 			citadel.change_time_period(time_period-1)
 		end
 	end, time_period)
@@ -175,7 +187,7 @@ function citadel.go_backward()
 	citadel.hud("flash", "flash.png", 0.1, 0.05)
 	minetest.after(0.5, function(time_period)
 		citadel.change_time_period(time_period)
-		if minetest.get_node(minetest.get_player_by_name("singleplayer"):get_pos()).name ~= "air" then 
+		if citadel.check_player_collided(minetest.get_player_by_name("singleplayer")) then
 			citadel.change_time_period(time_period+1)
 			--minetest.civ.highlight("No")
 		end
