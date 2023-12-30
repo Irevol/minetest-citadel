@@ -4,7 +4,7 @@ minetest.register_on_joinplayer(function(player)
 		position = {x=0.5, y=0.5},
 		name = "sepia",
 		scale = {x = 10, y = 10},
-		text = "sepia.png^[opacity:0";
+		text = "sepia.png^[opacity:".. 15*(5-data:get_int("time_period")),
 		direction = 0,
 		alignment = {x=0, y=0},
 		offset = {x=0, y=0},
