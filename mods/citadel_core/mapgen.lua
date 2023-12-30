@@ -1,5 +1,5 @@
-minetest.register_on_joinplayer(function(ObjectRef)
-	local id = ObjectRef:hud_add({
+minetest.register_on_joinplayer(function(player)
+	local id = player:hud_add({
 		hud_elem_type = "image",
 		position = {x=0.5, y=0.5},
 		name = "sepia",
@@ -12,7 +12,19 @@ minetest.register_on_joinplayer(function(ObjectRef)
 		style = 2,
 	})
 	data:set_int("sepia_hud_id", id)
+	player:set_armor_groups({
+		immortal = 1,
+		fall_damage_add_percent = -100
+	})
+	player:hud_set_flags({
+		healthbar = false,
+		breathbar = false,
+		minimap = false,
+	})
+	player:set_sky({base_color ="#000000", clouds = false, sky_color={dawn_sky = "#000000", day_sky="#000000",night_sky="#000000",dawn_horizon = "#000000",night_horizon="#000000", day_horizon="#000000"}})
+	player:set_physics_override({jump=1.1})
 end)
+
 
 minetest.register_on_newplayer(function(ObjectRef)
 	data:set_string("ended", "")
@@ -21,10 +33,6 @@ minetest.register_on_newplayer(function(ObjectRef)
 	minetest.place_schematic({x=-9,y=-1,z=-8}, minetest.get_modpath("citadel_core").."/schems/arena.mts", nil, nil, true, nil)
 	citadel.change_time_period(5)
 	ObjectRef:set_pos({x=40,y=7,z=-5})
-	ObjectRef:set_sky({base_color ="#000000", clouds = false, sky_color={dawn_sky = "#000000", day_sky="#000000",night_sky="#000000",dawn_horizon = "#000000",night_horizon="#000000", day_horizon="#000000"}})
-	ObjectRef:set_physics_override({jump=1.1})
-	--ObjectRef:hud_set_flags(hud_flags)
-	--citadel.hud("title", "title.png", 4)
 end)
 
 -- --from Glitch
