@@ -1,3 +1,6 @@
+citadel_core/sounds/nodecore_*.ogg are (C) 2018-2023 Magik Eh and Warr1024, MIT License
+citadel_core/sounds/dia*.ogg are (C) 2023 Warr1024, CC-BY 4.0
+
 ambient_light is licensed under GNU Lesser General Public License, 2.1
 citadel_core is licensed under the MIT License and CC-BY-SA 4.0 
 player_api is licensed under GNU Lesser General Public License, version 2.1

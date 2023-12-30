@@ -36,13 +36,13 @@ citadel.register_node("stonecarved")
 citadel.register_node("stonetile")
 citadel.register_node("mossystonebricks")
 
-citadel.register_node("wood")
+citadel.register_node("wood", "woody")
 citadel.register_node("plaster")
-citadel.register_node("grass")
-citadel.register_node("grasswithstones")
+citadel.register_node("grass", "grassy")
+citadel.register_node("grasswithstones", "grassy")
 citadel.register_node("alt_stonetile")
-citadel.register_node("trunk")
-citadel.register_node("default_leaves")
+citadel.register_node("trunk", "woody")
+citadel.register_node("default_leaves", "swishy")
 --citadel.register_node("stone")
 citadel.register_node("star")
 
@@ -50,11 +50,13 @@ minetest.register_node(cc.."stone", {
 	description = "stonewithgrass",
 	tiles = {"stone.png^[colorize:#000000:80"},
 	groups = {cracky=2},
+	sounds = citadel.nodecore_sounds("stony"),
 })
 minetest.register_node(cc.."stone_cracked", {
 	description = "cracked stone",
 	tiles = {"(stone.png^cracks.png)^[colorize:#000000:40"},
 	groups = {cracky=2},
+	sounds = citadel.nodecore_sounds("stony"),
 })
 minetest.register_node(cc.."small_wood", {
 	description = "small trunk",
@@ -66,12 +68,14 @@ minetest.register_node(cc.."small_wood", {
 	tiles = {"trunk.png"},
 	groups = {cracky=2},
 	sunlight_propagates = true,
+	sounds = citadel.nodecore_sounds("woody"),
 })
 local stonetex = "stone.png^[colorize:#000000:80"
 minetest.register_node(cc.."stonewithgrass", {
 	description = "stonewithgrass",
 	tiles = {"grass.png", "grass.png", stonetex.."^grass_overlay.png",stonetex.."^grass_overlay.png", stonetex.."^grass_overlay.png",stonetex.."^grass_overlay.png" },
 	groups = {cracky=2},
+	sounds = citadel.nodecore_sounds("grassy"),
 })
 minetest.register_node(cc.."black", {
 	description = "black",
@@ -107,6 +111,7 @@ for i = 1,12 do
 		description = "stone with glyph "..i,
 		tiles = {"stone.png^glyph"..i..".png"},
 		groups = {cracky=2},
+		sounds = citadel.nodecore_sounds("stony"),
 	})
 end
 
