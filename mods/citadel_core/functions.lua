@@ -23,8 +23,8 @@ function citadel.change_time_period(time_period)
 
 	--sepia
 	local player = minetest.get_player_by_name("singleplayer")
-	local id = data:get_int("sepia_hud_id")
-	player:hud_change(id, "text", "sepia.png^[opacity:".. 15*(5-time_period))
+	player:hud_change(citadel.sepia_hud_id, "text",
+		"sepia.png^[opacity:".. 15*(5-time_period))
 	
 	local plant_data = minetest.deserialize(data:get_string("plant_data"))
 	
@@ -128,6 +128,19 @@ function citadel.change_time_period(time_period)
 				-- end
 			-- end
 		-- end
+
+		-- Search for "unique" nodes and make sure duplicates do
+		-- not exist after the time period has been fully loaded.
+		for _, pos in pairs(minetest.find_nodes_in_area(
+			vector.new(0, 0, 0),
+			vector.new(45, 32, 43),
+			"group:unique")) do
+			local node = minetest.get_node(pos)
+			local def = minetest.registered_nodes[node.name]
+			if def and def._on_unique then
+				def._on_unique(pos, node)
+			end
+		end
 	end
 end
 
@@ -148,7 +161,19 @@ function citadel.unrecord_plant(pos, plant_type)
 	end
 end
 
--- lua has no +=? what?
+function citadel.check_player_collided(player)
+	local pos = player:get_pos()
+	for dy = 0, 1.9 do
+		for dx = -0.3, 0.3, 0.6 do
+			for dz = -0.3, 0.3, 0.6 do
+				local p = vector.offset(pos, dx, dy, dz)
+				if minetest.get_node(p).name ~= "air" then return true end
+			end
+		end
+	end
+end
+
+-- lua has no +=? what? IKR
 function citadel.go_foward()
 	local time_period = data:get_int("time_period")
 	time_period = time_period+1
@@ -158,7 +183,7 @@ function citadel.go_foward()
 	citadel.hud("flash", "flash.png", 0.1, 0.05)
 	minetest.after(0.5, function(time_period)
 		citadel.change_time_period(time_period)
-		if minetest.get_node(minetest.get_player_by_name("singleplayer"):get_pos()).name ~= "air" then 
+		if citadel.check_player_collided(minetest.get_player_by_name("singleplayer")) then
 			citadel.change_time_period(time_period-1)
 		end
 	end, time_period)
@@ -175,7 +200,7 @@ function citadel.go_backward()
 	citadel.hud("flash", "flash.png", 0.1, 0.05)
 	minetest.after(0.5, function(time_period)
 		citadel.change_time_period(time_period)
-		if minetest.get_node(minetest.get_player_by_name("singleplayer"):get_pos()).name ~= "air" then 
+		if citadel.check_player_collided(minetest.get_player_by_name("singleplayer")) then
 			citadel.change_time_period(time_period+1)
 			--minetest.civ.highlight("No")
 		end
@@ -323,4 +348,17 @@ function citadel.endgame()
 	minetest.after(2, function(player) player:set_pos({x=3,y=-40,z=3}) end, player)
 	data:set_string("ended", "yes")
 	minetest.sound_play("crack", {to_player = "singleplayer"}, true)
+end
+
+function citadel.unique_item(...)
+	local items = {...}
+	for i = 1, #items do items[i] = ItemStack(items[i]) end
+	return function(pos)
+		local inv = minetest.get_player_by_name("singleplayer"):get_inventory()
+		for i = 1, #items do
+			if inv:contains_item("main", items[i], false) then
+				return minetest.remove_node(pos)
+			end
+		end
+	end
 end

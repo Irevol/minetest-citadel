@@ -13,7 +13,7 @@ minetest.register_node(cc.."acorn", {
 	paramtype = "light",
 	mesh = "acorn.obj",
 	tiles = {brown,dark_brown},
-	groups = {cracky=2,breakable=1},
+	groups = {cracky=2,breakable=1,unique=1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y-1
 		if minetest.get_node(pos).name == "air" or minetest.get_item_group(minetest.get_node(pos).name, "breakable") ~= 0 then
@@ -26,7 +26,8 @@ minetest.register_node(cc.."acorn", {
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		citadel.unrecord_plant(pos, "tree")
-	end
+	end,
+	_on_unique = citadel.unique_item(cc.."acorn"),
 })
 
 minetest.register_node(cc.."big_acorn", {
@@ -36,7 +37,7 @@ minetest.register_node(cc.."big_acorn", {
 	paramtype = "light",
 	mesh = "big_acorn.obj",
 	tiles = {brown,dark_brown},
-	groups = {cracky=2,breakable=1},
+	groups = {cracky=2,breakable=1,unique=1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y-1
 		if minetest.get_node(pos).name == "air" or minetest.get_item_group(minetest.get_node(pos).name, "breakable") ~= 0 then
@@ -49,7 +50,8 @@ minetest.register_node(cc.."big_acorn", {
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		citadel.unrecord_plant(pos, "big_tree")
-	end
+	end,
+	_on_unique = citadel.unique_item(cc.."big_acorn"),
 })
 
 minetest.register_node(cc.."vine_bud", {
@@ -60,7 +62,7 @@ minetest.register_node(cc.."vine_bud", {
 	mesh = "bud.obj",
 	tiles = {green},
 	climable = true;
-	groups = {cracky=2,breakable=1},
+	groups = {cracky=2,breakable=1,unique=1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y+1
 		if minetest.get_node(pos).name == "air" or minetest.get_item_group(minetest.get_node(pos).name, "breakable") ~= 0 then
@@ -73,7 +75,8 @@ minetest.register_node(cc.."vine_bud", {
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		citadel.unrecord_plant(pos, "vine")
-	end
+	end,
+	_on_unique = citadel.unique_item(cc.."vine_bud"),
 })
 minetest.register_node(cc.."vine", {
 	description = "Vine",
@@ -93,7 +96,7 @@ minetest.register_node(cc.."bamboo_shoot", {
 	paramtype = "light",
 	mesh = "bamboo_shoot.obj",
 	tiles = {dark_green},
-	groups = {cracky=2,breakable=1},
+	groups = {cracky=2,breakable=1,unique=1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y-1
 		if minetest.get_node(pos).name == "air" or minetest.get_item_group(minetest.get_node(pos).name, "breakable") ~= 0 then
@@ -106,7 +109,8 @@ minetest.register_node(cc.."bamboo_shoot", {
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		citadel.unrecord_plant(pos, "bamboo")
-	end
+	end,
+	_on_unique = citadel.unique_item(cc.."bamboo_shoot"),
 })
 minetest.register_node(cc.."bamboo", {
 	description = "Bamboo",
