@@ -51,18 +51,20 @@ local function musiccheck(player)
 
 	-- Mute all songs other than the target one.  Change the target
 	-- song to the desired gain.
-	local function fadeto(stateobj, rate, target)
+	local function fadeto(stateobj, time, target)
 		if stateobj.gain == target then return end
-		minetest.sound_fade(stateobj.id, rate, target)
+		minetest.sound_fade(stateobj.id,
+			math.abs(stateobj.gain - target) / time,
+			target)
 		stateobj.gain = target
 	end
 	for i, v in pairs(state) do
 		if song ~= i then
-			fadeto(v, 0.2, 0.001)
+			fadeto(v, 2, 0.001)
 		elseif gain == 1 then
-			fadeto(v, 0.2, citadel.sounds[i].gain)
+			fadeto(v, 2, citadel.sounds[i].gain)
 		else
-			fadeto(v, 2, citadel.sounds[i].gain * gain)
+			fadeto(v, 0.25, citadel.sounds[i].gain * gain)
 		end
 	end
 end
