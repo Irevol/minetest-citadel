@@ -25,14 +25,15 @@ minetest.register_node(cc.."foward_stone_node", {
 	description = "fsn",
 	walkable = true,
 	tiles = {"small_stone.png^(foward_overlay.png^[colorize:black)"},
-	groups = {cracky=2,sparkle = 1, breakable = 1},
+	groups = {cracky=2,sparkle = 1, breakable = 1, unique = 1},
 	drawtype = "signlike",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	selection_box = {
 		type = "wallmounted",
 	},
-	drop = cc.."foward_stone"
+	drop = cc.."foward_stone",
+	_on_unique = citadel.unique_item(cc.."foward_stone", cc.."foward_stone_active"),
 })
 --backward stone
 minetest.register_craftitem(cc.."backward_stone", {
@@ -58,7 +59,7 @@ minetest.register_craftitem(cc.."backward_stone_active", {
 minetest.register_node(cc.."backward_stone_node", {
 	description = "bsn",
 	tiles = {"small_stone.png^(backward_overlay.png^[colorize:black)"},
-	groups = {cracky=2,sparkle = 1, breakable = 1},
+	groups = {cracky=2,sparkle = 1, breakable = 1, unique = 1},
 	drawtype = "signlike",
 	paramtype = "light",
 	walkable = true,
@@ -66,7 +67,8 @@ minetest.register_node(cc.."backward_stone_node", {
 	selection_box = {
 		type = "wallmounted",
 	},
-	drop = cc.."backward_stone"
+	drop = cc.."backward_stone",
+	_on_unique = citadel.unique_item(cc.."backward_stone", cc.."backward_stone_active"),
 })
 --unlock stone
 minetest.register_craftitem(cc.."unlock_stone", {
@@ -118,7 +120,7 @@ minetest.register_craftitem(cc.."unlock_stone_active", {
 minetest.register_node(cc.."unlock_stone_node", {
 	description = "usn",
 	tiles = {"small_stone.png^(unlock.png^[colorize:black)"},
-	groups = {cracky=2,sparkle = 1, breakable = 1},
+	groups = {cracky=2,sparkle = 1, breakable = 1, unique = 1},
 	drawtype = "signlike",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
@@ -126,7 +128,8 @@ minetest.register_node(cc.."unlock_stone_node", {
 	selection_box = {
 		type = "wallmounted",
 	},
-	drop = cc.."unlock_stone"
+	drop = cc.."unlock_stone",
+	_on_unique = citadel.unique_item(cc.."unlock_stone", cc.."unlock_stone_active"),
 })
 
 --break stone
@@ -159,7 +162,7 @@ minetest.register_craftitem(cc.."break_stone", {
 minetest.register_node(cc.."break_stone_node", {
 	description = "dsn",
 	tiles = {"small_stone.png^(break.png^[colorize:black)"},
-	groups = {cracky=2, sparkle = 1, breakable = 1},
+	groups = {cracky=2, sparkle = 1, breakable = 1, unique = 1},
 	drawtype = "signlike",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
@@ -167,5 +170,6 @@ minetest.register_node(cc.."break_stone_node", {
 	selection_box = {
 		type = "wallmounted",
 	},
-	drop = cc.."break_stone"
+	drop = cc.."break_stone",
+	_on_unique = citadel.unique_item(cc.."break_stone"),
 })

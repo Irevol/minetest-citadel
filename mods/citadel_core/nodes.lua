@@ -120,7 +120,7 @@ function register_collectable(name, desc)
 	minetest.register_node(cc..name.."_node", {
 		description = desc.." node",
 		tiles = {name..".png"},
-		groups = {cracky=2, breakable = 1, sparkle = 1},
+		groups = {cracky=2, breakable = 1, sparkle = 1, unique = 1},
 		drawtype = "signlike",
 		paramtype = "light",
 		paramtype2 = "wallmounted",
@@ -128,7 +128,8 @@ function register_collectable(name, desc)
 		selection_box = {
 			type = "wallmounted",
 		},
-		drop = cc..name
+		drop = cc..name,
+		_on_unique = citadel.unique_item(cc..name)
 	})
 end
 register_collectable("pendant", "Ancient Pendant")
@@ -138,6 +139,20 @@ register_collectable("sigil", "Ancient Sigil")
 register_collectable("scepter", "Ancient Scepter")
 register_collectable("coin", "Ancient Coin")
 register_collectable("totem", "Oddly Shaped Totem")
+
+minetest.register_abm({
+	label = "Uniqueness Check",
+	nodenames = {"group:unique"},
+	interval = 1,
+	chance = 1,
+	action = function(pos, node)
+		node = node or minetest.get_node(pos)
+		local def = minetest.registered_nodes[node.name]
+		if def and def._on_unique then
+			def._on_unique(pos, node)
+		end
+	end
+})
 
 --sparkle abm
 minetest.register_abm({

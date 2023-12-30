@@ -128,6 +128,19 @@ function citadel.change_time_period(time_period)
 				-- end
 			-- end
 		-- end
+
+		-- Search for "unique" nodes and make sure duplicates do
+		-- not exist after the time period has been fully loaded.
+		for _, pos in pairs(minetest.find_nodes_in_area(
+			vector.new(0, 0, 0),
+			vector.new(45, 32, 43),
+			"group:unique")) do
+			local node = minetest.get_node(pos)
+			local def = minetest.registered_nodes[node.name]
+			if def and def._on_unique then
+				def._on_unique(pos, node)
+			end
+		end
 	end
 end
 
@@ -318,4 +331,17 @@ function citadel.endgame()
 	minetest.after(2, function(player) player:set_pos({x=3,y=-40,z=3}) end, player)
 	data:set_string("ended", "yes")
 	minetest.sound_play("crack", {to_player = "singleplayer"}, true)
+end
+
+function citadel.unique_item(...)
+	local items = {...}
+	for i = 1, #items do items[i] = ItemStack(items[i]) end
+	return function(pos)
+		local inv = minetest.get_player_by_name("singleplayer"):get_inventory()
+		for i = 1, #items do
+			if inv:contains_item("main", items[i], false) then
+				return minetest.remove_node(pos)
+			end
+		end
+	end
 end
