@@ -23,12 +23,12 @@ minetest.register_craftitem(cc.."foward_stone_active", {
 })
 minetest.register_node(cc.."foward_stone_node", {
 	description = "fsn",
-	walkable = true,
 	tiles = {"small_stone.png^(foward_overlay.png^[colorize:black)"},
 	groups = {cracky=2,sparkle = 1, breakable = 1, unique = 1},
 	drawtype = "signlike",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
+	walkable = false,
 	selection_box = {
 		type = "wallmounted",
 	},
@@ -62,8 +62,8 @@ minetest.register_node(cc.."backward_stone_node", {
 	groups = {cracky=2,sparkle = 1, breakable = 1, unique = 1},
 	drawtype = "signlike",
 	paramtype = "light",
-	walkable = true,
 	paramtype2 = "wallmounted",
+	walkable = false,
 	selection_box = {
 		type = "wallmounted",
 	},
@@ -156,7 +156,7 @@ minetest.register_node(cc.."unlock_stone_node", {
 	drawtype = "signlike",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
-	walkable = true,
+	walkable = false,
 	selection_box = {
 		type = "wallmounted",
 	},
@@ -198,7 +198,7 @@ minetest.register_node(cc.."break_stone_node", {
 	drawtype = "signlike",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
-	walkable = true,
+	walkable = false,
 	selection_box = {
 		type = "wallmounted",
 	},

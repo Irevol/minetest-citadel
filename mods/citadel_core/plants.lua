@@ -12,6 +12,7 @@ minetest.register_node(cc.."acorn", {
 	sunlight_propagates = true,
 	paramtype = "light",
 	mesh = "acorn.obj",
+	walkable = false,
 	tiles = {brown,dark_brown},
 	groups = {cracky=2,breakable=1,unique=1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
@@ -36,6 +37,7 @@ minetest.register_node(cc.."big_acorn", {
 	sunlight_propagates = true,
 	paramtype = "light",
 	mesh = "big_acorn.obj",
+	walkable = false,
 	tiles = {brown,dark_brown},
 	groups = {cracky=2,breakable=1,unique=1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
@@ -61,7 +63,7 @@ minetest.register_node(cc.."vine_bud", {
 	paramtype = "light",
 	mesh = "bud.obj",
 	tiles = {green},
-	climable = true;
+	walkable = false,
 	groups = {cracky=2,breakable=1,unique=1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y+1
@@ -95,6 +97,7 @@ minetest.register_node(cc.."bamboo_shoot", {
 	sunlight_propagates = true,
 	paramtype = "light",
 	mesh = "bamboo_shoot.obj",
+	walkable = false,
 	tiles = {dark_green},
 	groups = {cracky=2,breakable=1,unique=1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
