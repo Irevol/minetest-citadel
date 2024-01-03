@@ -67,3 +67,11 @@ for k, v in pairs(minetest.registered_chatcommands) do
 		minetest.override_chatcommand(k, v)
 	end
 end
+
+--light level
+minetest.register_on_mods_loaded(function()
+	local light_level = minetest.settings:get("light_level")
+	for name, def in pairs(minetest.registered_nodes) do
+		minetest.override_item(name, { light_source = light_level })
+	end
+end)

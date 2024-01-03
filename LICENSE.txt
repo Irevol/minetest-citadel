@@ -1,11 +1,9 @@
-citadel_core/sounds/ubnarring.ogg (C) 2009 CGEffex, CC0
+citadel_core/sounds/unbarring.ogg (C) 2009 CGEffex, CC0
 	- https://freesound.org/people/CGEffex/sounds/85973/
 
 citadel_core/sounds/nodecore_*.ogg are (C) 2018-2023 Magik Eh and Warr1024, MIT License
 citadel_core/sounds/dia*.ogg are (C) 2023 Warr1024, CC-BY 4.0
 
-ambient_light is licensed under GNU Lesser General Public License, 2.1
-citadel_core is licensed under the MIT License and CC-BY-SA 4.0 
+citadel_core is licensed under the MIT License and CC-BY 4.0
 sfinv is licensed under the MIT License and CC-BY-SA 3.0 
 xpanes is licensed under the MIT License and CC-BY-SA 3.0 
-All other assets that are not part of a mod are licensed under CC-BY-SA 4.0. 

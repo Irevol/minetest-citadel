@@ -1,0 +1,2 @@
+# Ambient light level
+light_level (Ambient Light Level) int 4

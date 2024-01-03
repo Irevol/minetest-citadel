@@ -43,8 +43,6 @@ citadel.register_node("grasswithstones", "grassy")
 citadel.register_node("alt_stonetile")
 citadel.register_node("trunk", "woody")
 citadel.register_node("default_leaves", "swishy")
---citadel.register_node("stone")
-citadel.register_node("star")
 
 minetest.register_node(cc.."stone", {
 	description = "stonewithgrass",
@@ -84,6 +82,13 @@ minetest.register_node(cc.."black", {
 	paramtype = "light",
 	light_source = 14,
 })
+minetest.register_node(cc.."barrier", {
+	description = "barrier",
+	drawtype = "airlike",
+	groups = {cracky=2},
+	pointable = false,
+	sunlight_propagates = true,
+})
 minetest.register_node(cc.."trigger", {
 	description = "trigger",
 	drawtype = "airlike",
@@ -95,10 +100,10 @@ minetest.register_node(cc.."trigger", {
 		local objs = minetest.get_objects_inside_radius(pos, 0.9)
 		for _, obj in pairs(objs) do 
 			if obj:get_player_name() == "singleplayer" then
-				local img = "title.png^[colorize:#1b3c7a:100"
+				local img = "title.png^[colorize:#ffffff:50"
 				img = citadel.shadow(img, 256, 144, 1)
 				citadel.hud("title", img, 4)
-				minetest.set_node(pos, {name = "air"})
+				minetest.set_node(pos, {name = cc.."barrier"})
 				return false
 			end
 		end
