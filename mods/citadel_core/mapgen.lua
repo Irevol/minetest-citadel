@@ -27,6 +27,17 @@ minetest.register_on_joinplayer(function(player)
 	player:set_sky({base_color ="#000000", clouds = false, sky_color={dawn_sky = "#000000", day_sky="#000000",night_sky="#000000",dawn_horizon = "#000000",night_horizon="#000000", day_horizon="#000000"}})
 	player:set_physics_override({jump=1.1})
 	player:set_properties({textures = {"blank.png"}})
+	--make sure you don't end up with permanently activated stones
+	local inv = player:get_inventory()
+	for _, stone_name in pairs({"foward", "backward", "unbaring", "break"}) do
+		if inv:contains_item("main", cc..stone_name.."_stone_active") then
+			for i = 1,inv:get_size("main") do
+				if inv:get_stack("main", i):get_name() == cc..stone_name.."_stone_active" then 
+					inv:set_stack("main", i, cc..stone_name.."_stone")
+				end
+			end
+		end
+	end
 end)
 
 
