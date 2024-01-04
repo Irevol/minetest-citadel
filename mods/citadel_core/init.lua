@@ -22,7 +22,7 @@ data = minetest.get_mod_storage()
 
 
 local path = minetest.get_modpath("citadel_core")
-dofile(path.."/mapgen.lua")
+dofile(path.."/guidence.lua")
 dofile(path.."/ambience.lua")
 dofile(path.."/functions.lua")
 dofile(path.."/nodes.lua")
@@ -30,6 +30,7 @@ dofile(path.."/stones.lua")
 dofile(path.."/plants.lua")
 dofile(path.."/ghost.lua")
 dofile(path.."/endgame.lua")
+dofile(path.."/mapgen.lua")
 
 --hand
 minetest.override_item("", {

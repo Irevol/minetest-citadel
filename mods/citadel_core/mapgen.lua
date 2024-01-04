@@ -49,6 +49,7 @@ minetest.register_on_newplayer(function(player)
 	sepia_hud_create(player)
 	citadel.change_time_period(5)
 	player:set_pos({x=40,y=7,z=-5})
+	player:get_inventory():set_stack("main",1,cc.."letter")
 end)
 
 -- --from Glitch
