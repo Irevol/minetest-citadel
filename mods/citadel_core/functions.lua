@@ -2,7 +2,6 @@
 
 function citadel.change_time_period(time_period)
 
-	--minetest.chat_send_all(minetest.serialize(time_period))
 	minetest.place_schematic({x=0,y=0,z=0}, minetest.get_modpath("citadel_core").."/schems/"..citadel.schems[time_period], nil, nil, true, nil)
 	data:set_int("time_period", time_period)
 	
@@ -35,7 +34,7 @@ function citadel.change_time_period(time_period)
 		local plant_time = time_period-plant[3]
 		
 		--this hasn't been planted yet, or its source node is overlapped with a block (that isn't itself)
-		if plant_time >= 0 and ( minetest.get_node(pos).name == air or minetest.get_item_group(minetest.get_item_group(), "unique") == 1 ) then 	
+		if plant_time >= 0 and ( minetest.get_node(pos).name == "air" or minetest.get_item_group(minetest.get_node(pos).name, "unique") == 1 ) then 	
 			if plant_type == "tree" then
 				pos.y = pos.y-1
 				while minetest.get_node(pos).name == "air" do
@@ -140,6 +139,7 @@ function citadel.change_time_period(time_period)
 			end
 		end
 	end
+	minetest.place_schematic({x=-9,y=-1,z=-8}, minetest.get_modpath("citadel_core").."/schems/arena.mts", nil, nil, false, nil)
 end
 
 function citadel.record_plant(pos, plant_type)
@@ -266,16 +266,13 @@ local function processhud(player, key, hud)
 		hud.id = player:hud_add({
 			hud_elem_type = "image",
 			position = {x=0.5, y=0.5},
-			-- Top left corn2er position of element
 			name = "image",
 			scale = {x = -100, y = -100},
 			text = image,
 			direction = 0,
-			-- Direction: 0: left-right, 1: right-left, 2: top-bottom, 3: bottom-top
 			alignment = {x=0, y=0},
 			offset = {x=0, y=0},
 			z_index = 100,
-			-- Z index: lower z-index HUDs are displayed behind higher z-index HUDs
 			style = 2,
 		})
 		hud.displayed = image
