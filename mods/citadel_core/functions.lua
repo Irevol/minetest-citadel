@@ -12,7 +12,6 @@ function citadel.change_time_period(time_period)
 		for _, ghost in pairs(citadel.ghost_data) do
 			-- {time period,pos,images}
 			if ghost[1] == time_period then
-				--minetest.chat_send_all("gg")
 				gobj = minetest.add_entity(ghost[2], cc.."ghost", minetest.serialize(ghost[3]))
 				gobj:set_properties({_images = minetest.serialize(ghost[3])})
 			end
@@ -35,10 +34,9 @@ function citadel.change_time_period(time_period)
 		--how "long" has this been planted for
 		local plant_time = time_period-plant[3]
 		
-		--this hasn't been planted yet!
-		if plant_time >= 0 then 	
+		--this hasn't been planted yet, or its source node is overlapped with a block (that isn't itself)
+		if plant_time >= 0 and ( minetest.get_node(pos).name == air or minetest.get_item_group(minetest.get_item_group(), "unique") == 1 ) then 	
 			if plant_type == "tree" then
-				--minetest.chat_send_all("ggg")
 				pos.y = pos.y-1
 				while minetest.get_node(pos).name == "air" do
 					pos.y = pos.y-1
