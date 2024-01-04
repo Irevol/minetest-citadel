@@ -14,13 +14,15 @@ sfinv.register_page("sfinv:tips", {
 	title = "Tips",
 	get = function(self, player, context)
 		return sfinv.make_formspec(player, context, [[
-				label[0.1,0.5;Use both decay and growth to traverse the ruins!]
-				label[0.1,1;Are the tales of a tortured spirit who lives here more than superstition?]
-				label[0.1,1.5;Can you find all 7 Ancient Artifacts?]
-				label[0.1,2;Can you find a mysterious floating crystal, said to hold the secrets of immortality?]
-				label[0.1,2.5;Time traveling into a wall is unlikely to work.]
-				label[0.1,3;Plants that have rubble fall on them are likely to die]
-				label[0.1,3.5;If you're stuck, contact Irevol via ContentDB or the fourms (: This game is kinda hard]
+				textarea[0.1,0.1;9.8,8.9;;
+					Use both decay and growth to traverse the ruins!
+					Are the tales of a tortured spirit who lives here more than superstition?
+					Can you find all 7 Ancient Artifacts?
+					Can you find a mysterious floating crystal, said to hold the secrets of immortality?
+					Time traveling into a wall is unlikely to work.
+					lants that have rubble fall on them are likely to die
+					If you're stuck, contact Irevol via ContentDB or the fourms (:
+				;]
 			]], false, "size[10,9.1]")
 	end
 })
