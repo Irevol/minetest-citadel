@@ -82,13 +82,6 @@ minetest.register_node(cc.."black", {
 	paramtype = "light",
 	light_source = 14,
 })
-minetest.register_node(cc.."barrier", {
-	description = "barrier",
-	drawtype = "airlike",
-	groups = {cracky=2},
-	pointable = false,
-	sunlight_propagates = true,
-})
 minetest.register_node(cc.."trigger", {
 	description = "trigger",
 	drawtype = "airlike",
@@ -103,7 +96,7 @@ minetest.register_node(cc.."trigger", {
 				local img = "title.png^[colorize:#ffffff:50"
 				img = citadel.shadow(img, 256, 144, 1)
 				citadel.hud("title", img, 4)
-				minetest.set_node(pos, {name = cc.."barrier"})
+				minetest.set_node(pos, {name = "air"})
 				return false
 			end
 		end

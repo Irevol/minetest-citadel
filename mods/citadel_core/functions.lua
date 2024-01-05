@@ -2,7 +2,7 @@
 
 function citadel.change_time_period(time_period)
 
-	minetest.place_schematic({x=-9,y=-1,z=-8}, minetest.get_modpath("citadel_core").."/schems/arena.mts", nil, nil, true, nil)
+	minetest.place_schematic({x=-9,y=-1,z=-8}, minetest.get_modpath("citadel_core").."/schems/arena.mts", nil, {[cc.."trigger"] = "air"}, true, nil)
 	minetest.place_schematic({x=0,y=0,z=0}, minetest.get_modpath("citadel_core").."/schems/"..citadel.schems[time_period], nil, nil, true, nil)
 	data:set_int("time_period", time_period)
 	
