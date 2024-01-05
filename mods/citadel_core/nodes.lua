@@ -193,15 +193,6 @@ minetest.register_lbm({
     end
 })
 --delete things
-minetest.register_lbm({
-    label = "star",
-    name = cc.."star",
-    nodenames = {cc.."star"},
-    run_at_every_load = true,
-    action = function(pos, node, dtime_s)
-		minetest.set_node(pos,{name="air"})
-    end
-})
 minetest.register_abm({
     label = "delete",
     interval = 0.5,
@@ -216,3 +207,5 @@ minetest.register_abm({
 		end
     end
 })
+
+minetest.register_alias(cc.."star", "air")
