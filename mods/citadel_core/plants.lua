@@ -1,7 +1,7 @@
 
 local strength = "230"
 local green = "civ_white.png^[colorize:#4d9655:"..strength
-local dark_green = "civ_white.png^[colorize:#115c20:"..strength
+local dark_green = "civ_white.png^[colorize:#0a3d05:"..strength
 local dark_brown = "civ_white.png^[colorize:#3c1904:"..strength
 local brown = "civ_white.png^[colorize:#9d5019:"..strength
 

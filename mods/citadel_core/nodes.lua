@@ -42,8 +42,16 @@ citadel.register_node("grass", "grassy")
 citadel.register_node("grasswithstones", "grassy")
 citadel.register_node("alt_stonetile")
 citadel.register_node("trunk", "woody")
-citadel.register_node("default_leaves", "swishy")
 
+minetest.register_alias(cc.."default_leaves",cc.."leaves")
+minetest.register_node(cc.."leaves", {
+	description = "leaves",
+	tiles = {"leaves.png"},
+	drawtype = "allfaces_optional",
+	use_texture_alpha = "clip", 
+	groups = {cracky=2},
+	sounds = citadel.nodecore_sounds("swishy"),
+})
 minetest.register_node(cc.."stone", {
 	description = "stonewithgrass",
 	tiles = {"stone.png^[colorize:#000000:80"},
@@ -65,6 +73,7 @@ minetest.register_node(cc.."small_wood", {
 	},
 	tiles = {"trunk.png"},
 	groups = {cracky=2},
+	paramtype = "light",
 	sunlight_propagates = true,
 	sounds = citadel.nodecore_sounds("woody"),
 })
