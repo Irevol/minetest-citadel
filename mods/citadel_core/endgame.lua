@@ -20,7 +20,7 @@ minetest.register_entity(cc.."crystal", {
 		
 	end,
 	on_activate = function(self, staticdata, dtime_s)
-	    self.object:set_texture_mod("^[opacity:100")
+	    self.object:set_texture_mod("^[opacity:128")
 		self.object:set_velocity({x=0,y=0.3,z=0})
 		--object:set_armor_groups({immortal = 1})
 	end,
