@@ -12,7 +12,7 @@ function citadel.change_time_period(time_period)
 		for _, ghost in pairs(citadel.ghost_data) do
 			-- {time period,pos,images}
 			if ghost[1] == time_period then
-				gobj = minetest.add_entity(ghost[2], cc.."ghost", minetest.serialize(ghost[3]))
+				local gobj = minetest.add_entity(ghost[2], cc.."ghost", minetest.serialize(ghost[3]))
 				gobj:set_properties({_images = minetest.serialize(ghost[3])})
 			end
 		end
