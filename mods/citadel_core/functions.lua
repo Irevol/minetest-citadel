@@ -347,11 +347,10 @@ end
 
 function citadel.unique_item(...)
 	local items = {...}
-	for i = 1, #items do items[i] = ItemStack(items[i]) end
 	return function(pos)
-		local inv = minetest.get_player_by_name("singleplayer"):get_inventory()
+		local meta = minetest.get_player_by_name("singleplayer"):get_meta()
 		for i = 1, #items do
-			if inv:contains_item("main", items[i], false) then
+			if meta:get_string(items[i]) ~= "" then
 				return minetest.remove_node(pos)
 			end
 		end

@@ -38,6 +38,17 @@ minetest.register_on_joinplayer(function(player)
 			end
 		end
 	end
+	--clear away old treaure items 
+	for _, artifact_name in pairs({"pendant","coin","totem","scepter","sigil","amulet","tablet"}) do
+		if inv:contains_item("main", cc..artifact_name) then
+			for i = 1,inv:get_size("main") do
+				if inv:get_stack("main", i):get_name() == cc..artifact_name then 
+					inv:set_stack("main", i, "")
+					player:get_meta():set_string(cc..artifact_name.."_node", "obtained")
+				end
+			end
+		end
+	end
 end)
 
 

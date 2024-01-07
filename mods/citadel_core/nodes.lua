@@ -131,6 +131,7 @@ function register_collectable(name, desc)
 	})
 	minetest.register_node(cc..name.."_node", {
 		description = desc.." node",
+		inventory_image = name..".png",
 		tiles = {name..".png"},
 		groups = {cracky=2, breakable = 1, sparkle = 1, unique = 1},
 		drawtype = "signlike",
@@ -140,8 +141,7 @@ function register_collectable(name, desc)
 		selection_box = {
 			type = "wallmounted",
 		},
-		drop = cc..name,
-		_on_unique = citadel.unique_item(cc..name)
+		_on_unique = citadel.unique_item(cc..name.."_node")
 	})
 end
 register_collectable("pendant", "Ancient Pendant")
@@ -151,6 +151,15 @@ register_collectable("sigil", "Ancient Sigil")
 register_collectable("scepter", "Ancient Scepter")
 register_collectable("coin", "Ancient Coin")
 register_collectable("totem", "Oddly Shaped Totem")
+
+minetest.register_on_dignode(function(pos, oldnode, digger)
+	digger:get_meta():set_string(oldnode.name, "obtained")
+	digger:get_meta():set_string("last_dug", oldnode.name)
+end)
+
+minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack, pointed_thing)
+	placer:get_meta():set_string(newnode.name, "")
+end)
 
 minetest.register_abm({
 	label = "Uniqueness Check",
@@ -199,21 +208,6 @@ minetest.register_lbm({
     run_at_every_load = true,
     action = function(pos, node, dtime_s)
 		minetest.get_node_timer(pos):start(0.1)
-    end
-})
---delete things
-minetest.register_abm({
-    label = "delete",
-    interval = 0.5,
-    chance = 1,
-    min_y = -200,
-    max_y = 200,
-    nodenames = {cc.."pendant",cc.."coin",cc.."backward_stone_node",cc.."foward_stone_node",cc.."break_stone_node",cc.."unlock_stone_node",cc.."totem",cc.."scepter",cc.."sigil",cc.."amulet",cc.."tablet"},
-    action = function(pos, node, dtime_s)
-		local player = minetest.get_player_by_name("singleplayer")
-		if player:get_inventory():contains_item("main", minetest.registered_items[minetest.get_node(pos).name].drop) then
-			minetest.set_node(pos,{name="air"})
-		end
     end
 })
 
