@@ -50,6 +50,8 @@ minetest.register_on_newplayer(function(player)
 	citadel.change_time_period(5)
 	player:set_pos({x=40,y=7,z=-5})
 	player:get_inventory():set_stack("main",1,cc.."letter")
+	player:get_inventory():set_stack("main",2,cc.."book")
+	player:get_meta():set_int("page", 1)
 end)
 
 -- --from Glitch
