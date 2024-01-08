@@ -14,6 +14,7 @@ local function sepia_hud_create(player)
 end
 
 minetest.register_on_joinplayer(function(player)
+	player:set_inventory_formspec("")
 	sepia_hud_create(player)
 	player:set_armor_groups({
 		immortal = 1,
@@ -38,6 +39,17 @@ minetest.register_on_joinplayer(function(player)
 			end
 		end
 	end
+	--clear away old treaure items 
+	for _, artifact_name in pairs({"pendant","coin","totem","scepter","sigil","amulet","tablet"}) do
+		if inv:contains_item("main", cc..artifact_name) then
+			for i = 1,inv:get_size("main") do
+				if inv:get_stack("main", i):get_name() == cc..artifact_name then 
+					inv:set_stack("main", i, "")
+					player:get_meta():set_string(cc..artifact_name.."_node", "obtained")
+				end
+			end
+		end
+	end
 end)
 
 
@@ -50,6 +62,8 @@ minetest.register_on_newplayer(function(player)
 	citadel.change_time_period(5)
 	player:set_pos({x=40,y=7,z=-5})
 	player:get_inventory():set_stack("main",1,cc.."letter")
+	player:get_inventory():set_stack("main",2,cc.."book")
+	player:get_meta():set_int("page", 1)
 end)
 
 -- --from Glitch

@@ -340,20 +340,31 @@ function citadel.endgame()
 	minetest.place_schematic({x=0,y=-50,z=0}, minetest.get_modpath("citadel_core").."/schems/endroom.mts", nil, nil, true, nil)
 	minetest.add_entity({x=10,y=-47,z=10}, cc.."ghost", minetest.serialize({50}))
 	minetest.after(1, function(player) player:set_pos({x=2,y=-40,z=2}) end, player)
-	minetest.after(2, function(player) player:set_pos({x=3,y=-40,z=3}) end, player)
+	minetest.after(3, function(player) player:set_pos({x=3,y=-40,z=3}) end, player)
 	data:set_string("ended", "yes")
 	minetest.sound_play("crack", {to_player = "singleplayer"}, true)
 end
 
 function citadel.unique_item(...)
 	local items = {...}
-	for i = 1, #items do items[i] = ItemStack(items[i]) end
 	return function(pos)
-		local inv = minetest.get_player_by_name("singleplayer"):get_inventory()
+		local meta = minetest.get_player_by_name("singleplayer"):get_meta()
 		for i = 1, #items do
-			if inv:contains_item("main", items[i], false) then
+			if meta:get_string(items[i]) ~= "" then
 				return minetest.remove_node(pos)
 			end
 		end
 	end
+end
+
+function citadel.show_credits()
+	local credits =  "credits.png^[resize:512x256"
+	local offset = 45
+	local positions = {{314,156},{314+offset,156},{314+2*offset-3,156},{314+3*offset,156},{334,198},{334+offset+3,198},{334+offset*2+6,198}}
+	for i, artifact_name in pairs({"pendant","coin","totem","scepter","sigil","amulet","tablet"}) do
+		if minetest.get_player_by_name("singleplayer"):get_meta():get_string(cc..artifact_name.."_node") ~= "" then
+			credits = credits.."^[combine:512x256:"..positions[i][1]..","..positions[i][2].."="..minetest.registered_items[cc..artifact_name].inventory_image
+		end
+	end
+	citadel.hud("credits", credits, 10)
 end
