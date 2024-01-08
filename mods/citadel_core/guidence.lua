@@ -19,7 +19,7 @@ local function get_page(page)
 	local text = "???"
 	local modifier = "^[colorize:#000000:255"
 	local player = minetest.get_player_by_name("singleplayer")
-	if true then--player:get_meta():get_string(page_table[page]) ~= "" then
+	if player:get_meta():get_string(page_table[page]) ~= "" then
 		text = ""
 		local file = io.open(minetest.get_modpath("citadel_core").."/book/".."book"..page..".txt")
 		for line in file:lines() do
