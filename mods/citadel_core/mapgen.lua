@@ -14,6 +14,7 @@ local function sepia_hud_create(player)
 end
 
 minetest.register_on_joinplayer(function(player)
+	player:set_inventory_formspec("")
 	sepia_hud_create(player)
 	player:set_armor_groups({
 		immortal = 1,

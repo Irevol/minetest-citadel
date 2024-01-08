@@ -138,6 +138,7 @@ function register_collectable(name, desc)
 		paramtype = "light",
 		paramtype2 = "wallmounted",
 		sunlight_propagates = true,
+		drop = "",
 		selection_box = {
 			type = "wallmounted",
 		},
