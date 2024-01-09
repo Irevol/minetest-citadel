@@ -28,6 +28,7 @@ minetest.register_on_joinplayer(function(player)
 	player:set_sky({base_color ="#000000", clouds = false, sky_color={dawn_sky = "#000000", day_sky="#000000",night_sky="#000000",dawn_horizon = "#000000",night_horizon="#000000", day_horizon="#000000"}})
 	player:set_physics_override({jump=1.1})
 	player:set_properties({textures = {"blank.png"}})
+	player:hud_set_hotbar_itemcount(10)
 	--make sure you don't end up with permanently activated stones
 	local inv = player:get_inventory()
 	for _, stone_name in pairs({"foward", "backward", "unbaring", "break"}) do
