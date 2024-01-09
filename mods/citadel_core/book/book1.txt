@@ -1,2 +1,4 @@
 <bigger><b>Ancient Amulet</b></bigger>
 
+Perhaps it holds some sort of magical power, waiting to be unlocked...
+Or maybe it's just jewlery. 

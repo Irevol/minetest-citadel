@@ -32,7 +32,7 @@ local function get_page(page)
 		"size[27,14]"..
 		"bgcolor[#ffffff;neither;]"..
 		"image[3,0;21,14;(book_background.png^[resize:1536x1024)]"..
-		"hypertext[14.5,1;12,13;text;<global color=#000000 size=28>" .. text .. "]"..
+		"hypertext[14.5,1;8.5,13;text;<global color=#000000 size=28>" .. text .. "]"..
 		"image[4.5,2.5;6,6;("..minetest.registered_items[page_table[page]].inventory_image.."^[resize:256x256)"..modifier.."]"..
 		"image_button[0,5;2,2;book_arrow.png;back;]"..
 		"image_button[25,5;2,2;book_arrow_rotated.png;foward;]"
