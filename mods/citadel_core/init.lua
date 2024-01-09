@@ -20,6 +20,9 @@ citadel.sounds = {
 }
 data = minetest.get_mod_storage()
 
+if not minetest.is_singleplayer() then
+	error("This game cannot be played in multiplayer! Please do not host a server.")
+end
 
 local path = minetest.get_modpath("citadel_core")
 dofile(path.."/guidence.lua")
