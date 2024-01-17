@@ -31,7 +31,7 @@ minetest.register_on_joinplayer(function(player)
 	player:hud_set_hotbar_itemcount(10)
 	--make sure you don't end up with permanently activated stones
 	local inv = player:get_inventory()
-	for _, stone_name in pairs({"foward", "backward", "unbaring", "break"}) do
+	for _, stone_name in pairs({"foward", "backward", "unlock", "break"}) do
 		if inv:contains_item("main", cc..stone_name.."_stone_active") then
 			for i = 1,inv:get_size("main") do
 				if inv:get_stack("main", i):get_name() == cc..stone_name.."_stone_active" then 
