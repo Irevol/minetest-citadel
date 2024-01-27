@@ -1,138 +1,166 @@
-
-
+local data = minetest.get_mod_storage()
 function citadel.change_time_period(time_period)
-
-	minetest.place_schematic({x=-9,y=-1,z=-8}, minetest.get_modpath("citadel_core").."/schems/arena.mts", nil, {[cc.."trigger"] = "air"}, true, nil)
-	minetest.place_schematic({x=0,y=0,z=0}, minetest.get_modpath("citadel_core").."/schems/"..citadel.schems[time_period], nil, nil, true, nil)
+	minetest.place_schematic(
+		{ x = -9, y = -1, z = -8 },
+		minetest.get_modpath("citadel_core") .. "/schems/arena.mts",
+		nil,
+		{ ["citadel_core:" .. "trigger"] = "air" },
+		true,
+		nil
+	)
+	minetest.place_schematic(
+		{ x = 0, y = 0, z = 0 },
+		minetest.get_modpath("citadel_core") .. "/schems/" .. citadel.schems[time_period],
+		nil,
+		nil,
+		true,
+		nil
+	)
 	data:set_int("time_period", time_period)
-	
+
 	--ghost
 	minetest.clear_objects()
 	if data:get_string("ended") == "" then
 		for _, ghost in pairs(citadel.ghost_data) do
 			-- {time period,pos,images}
 			if ghost[1] == time_period then
-				local gobj = minetest.add_entity(ghost[2], cc.."ghost", minetest.serialize(ghost[3]))
-				gobj:set_properties({_images = minetest.serialize(ghost[3])})
+				local gobj = minetest.add_entity(ghost[2], "citadel_core:" .. "ghost", minetest.serialize(ghost[3]))
+				gobj:set_properties({ _images = minetest.serialize(ghost[3]) })
 			end
 		end
 		--crystal
-		minetest.add_entity(citadel.crystal_pos, cc.."crystal")
+		minetest.add_entity(citadel.crystal_pos, "citadel_core:" .. "crystal")
 	end
 
 	--sepia
 	local player = minetest.get_player_by_name("singleplayer")
-	player:hud_change(citadel.sepia_hud_id, "text",
-		"sepia.png^[opacity:".. 15*(5-time_period))
-	
+	player:hud_change(citadel.sepia_hud_id, "text", "sepia.png^[opacity:" .. 15 * (5 - time_period))
+
 	local plant_data = minetest.deserialize(data:get_string("plant_data"))
-	
+
 	--plants
 	for _, plant in pairs(plant_data) do
 		local pos = plant[1]
 		local plant_type = plant[2]
 		--how "long" has this been planted for
-		local plant_time = time_period-plant[3]
-		
+		local plant_time = time_period - plant[3]
+
 		--this hasn't been planted yet, or its source node is overlapped with a block (that isn't itself)
-		if plant_time >= 0 and ( minetest.get_node(pos).name == "air" or minetest.get_item_group(minetest.get_node(pos).name, "unique") == 1 ) then 	
+		if
+			plant_time >= 0
+			and (
+				minetest.get_node(pos).name == "air"
+				or minetest.get_item_group(minetest.get_node(pos).name, "unique") == 1
+			)
+		then
 			if plant_type == "tree" then
-				pos.y = pos.y-1
+				pos.y = pos.y - 1
 				while minetest.get_node(pos).name == "air" do
-					pos.y = pos.y-1
+					pos.y = pos.y - 1
 				end
-				pos.y = pos.y+1
+				pos.y = pos.y + 1
 				if plant_time == 0 then
-					minetest.set_node(pos, {name = cc.."acorn"})
+					minetest.set_node(pos, { name = "citadel_core:" .. "acorn" })
 				else
-					local schems = {"tree1.mts","tree2.mts","tree3.mts","tree4.mts"}
-					minetest.place_schematic(pos, minetest.get_modpath("citadel_core").."/schems/"..schems[plant_time], nil, nil, true, {place_center_x=true, place_center_z=true})
+					local schems = { "tree1.mts", "tree2.mts", "tree3.mts", "tree4.mts" }
+					minetest.place_schematic(
+						pos,
+						minetest.get_modpath("citadel_core") .. "/schems/" .. schems[plant_time],
+						nil,
+						nil,
+						true,
+						{ place_center_x = true, place_center_z = true }
+					)
 				end
 			end
-			
+
 			if plant_type == "big_tree" then
-				pos.y = pos.y-1
+				pos.y = pos.y - 1
 				while minetest.get_node(pos).name == "air" do
-					pos.y = pos.y-1
+					pos.y = pos.y - 1
 				end
-				pos.y = pos.y+1
+				pos.y = pos.y + 1
 				if plant_time == 0 then
-					minetest.set_node(pos, {name = cc.."big_acorn"})
+					minetest.set_node(pos, { name = "citadel_core:" .. "big_acorn" })
 				else
-					local schems = {"tree2.mts","tree3.mts","tree4.mts","tree4.mts"}
-					minetest.place_schematic(pos, minetest.get_modpath("citadel_core").."/schems/"..schems[plant_time], nil, nil, true, {place_center_x=true, place_center_z=true})
+					local schems = { "tree2.mts", "tree3.mts", "tree4.mts", "tree4.mts" }
+					minetest.place_schematic(
+						pos,
+						minetest.get_modpath("citadel_core") .. "/schems/" .. schems[plant_time],
+						nil,
+						nil,
+						true,
+						{ place_center_x = true, place_center_z = true }
+					)
 				end
 			end
-			
+
 			if plant_type == "vine" then
-				pos.y = pos.y+1
+				pos.y = pos.y + 1
 				if minetest.get_node(pos).name ~= "air" then
-					pos.y = pos.y-1
+					pos.y = pos.y - 1
 					if plant_time == 0 then
-						minetest.set_node(pos, {name = cc.."vine_bud"})
+						minetest.set_node(pos, { name = "citadel_core:" .. "vine_bud" })
 					end
 					local terminate = false
-					for i=0,plant_time do
+					for i = 0, plant_time do
 						if not terminate then
-							pos.y = pos.y-i
+							pos.y = pos.y - i
 							if minetest.get_node(pos).name ~= "air" then
 								terminate = true
 							else
-								minetest.set_node(pos, {name = cc.."vine"})
+								minetest.set_node(pos, { name = "citadel_core:" .. "vine" })
 							end
-							pos.y = pos.y+i
+							pos.y = pos.y + i
 						end
 					end
 				end
 			end
-			
+
 			if plant_type == "bamboo" then
-				pos.y = pos.y-1
+				pos.y = pos.y - 1
 				while minetest.get_node(pos).name == "air" do
-					pos.y = pos.y-1
+					pos.y = pos.y - 1
 				end
-				pos.y = pos.y+1
+				pos.y = pos.y + 1
 				if plant_time == 0 then
-					minetest.set_node(pos, {name = cc.."bamboo_shoot"})
+					minetest.set_node(pos, { name = "citadel_core:" .. "bamboo_shoot" })
 				end
 				local terminate = false
-				for i=0,(plant_time*2) do
+				for i = 0, (plant_time * 2) do
 					if not terminate then
-						pos.y = pos.y+i
+						pos.y = pos.y + i
 						if minetest.get_node(pos).name ~= "air" then
 							terminate = true
 						else
-							minetest.set_node(pos, {name = cc.."bamboo"})
+							minetest.set_node(pos, { name = "citadel_core:" .. "bamboo" })
 						end
-						pos.y = pos.y-i
+						pos.y = pos.y - i
 					end
 				end
 			end
 		end
-		
+
 		-- if plant_type == "red_mushroom" then
-			-- if plant_time = 1 then
-				-- minetest.set_node(pos, {name = "red_mushroom"})
-			-- elseif plant_time > 1 then
-				-- for z=-1,1,2 do
-					-- pos.z=pos.z+z
-					-- minetest.set_node(pos, {name = "air"})
-					-- pos.z=pos.z-z
-				-- end
-				-- for x=-1,1,2 do
-					-- pos.x=pos.x+x
-					-- minetest.set_node(pos, {name = "air"})
-					-- pos.x=pos.x-x
-				-- end
-			-- end
+		-- if plant_time = 1 then
+		-- minetest.set_node(pos, {name = "red_mushroom"})
+		-- elseif plant_time > 1 then
+		-- for z=-1,1,2 do
+		-- pos.z=pos.z+z
+		-- minetest.set_node(pos, {name = "air"})
+		-- pos.z=pos.z-z
+		-- end
+		-- for x=-1,1,2 do
+		-- pos.x=pos.x+x
+		-- minetest.set_node(pos, {name = "air"})
+		-- pos.x=pos.x-x
+		-- end
+		-- end
 		-- end
 
 		-- Search for "unique" nodes and make sure duplicates do
 		-- not exist after the time period has been fully loaded.
-		for _, pos in pairs(minetest.find_nodes_in_area(
-			vector.new(0, 0, 0),
-			vector.new(45, 32, 43),
-			"group:unique")) do
+		for _, pos in pairs(minetest.find_nodes_in_area(vector.new(0, 0, 0), vector.new(45, 32, 43), "group:unique")) do
 			local node = minetest.get_node(pos)
 			local def = minetest.registered_nodes[node.name]
 			if def and def._on_unique then
@@ -144,18 +172,18 @@ end
 
 function citadel.record_plant(pos, plant_type)
 	local plant_data = minetest.deserialize(data:get_string("plant_data"))
-	table.insert(plant_data, {pos, plant_type, data:get_int("time_period")})
+	table.insert(plant_data, { pos, plant_type, data:get_int("time_period") })
 	data:set_string("plant_data", minetest.serialize(plant_data))
 end
 
 function citadel.unrecord_plant(pos, plant_type)
 	local plant_data = minetest.deserialize(data:get_string("plant_data"))
 	for i, plant in pairs(plant_data) do
-	    if plant[1].x == pos.x and plant[1].y == pos.y and plant[1].z == pos.z and plant[2] == plant_type then
+		if plant[1].x == pos.x and plant[1].y == pos.y and plant[1].z == pos.z and plant[2] == plant_type then
 			table.remove(plant_data, i)
 			data:set_string("plant_data", minetest.serialize(plant_data))
 			break
-	    end
+		end
 	end
 end
 
@@ -165,7 +193,9 @@ function citadel.check_player_collided(player)
 		for dx = -0.3, 0.3, 0.6 do
 			for dz = -0.3, 0.3, 0.6 do
 				local p = vector.offset(pos, dx, dy, dz)
-				if minetest.get_node(p).name ~= "air" then return true end
+				if minetest.get_node(p).name ~= "air" then
+					return true
+				end
 			end
 		end
 	end
@@ -174,7 +204,7 @@ end
 -- lua has no +=? what? IKR
 function citadel.go_foward()
 	local time_period = data:get_int("time_period")
-	time_period = time_period+1
+	time_period = time_period + 1
 	if time_period > 5 then
 		return false
 	end
@@ -182,16 +212,16 @@ function citadel.go_foward()
 	minetest.after(0.5, function(time_period)
 		citadel.change_time_period(time_period)
 		if citadel.check_player_collided(minetest.get_player_by_name("singleplayer")) then
-			citadel.change_time_period(time_period-1)
+			citadel.change_time_period(time_period - 1)
 		end
 	end, time_period)
-	minetest.sound_play("travel", {to_player = "singleplayer"}, true)
+	minetest.sound_play("travel", { to_player = "singleplayer" }, true)
 	return true
 end
 
 function citadel.go_backward()
 	local time_period = data:get_int("time_period")
-	time_period = time_period-1
+	time_period = time_period - 1
 	if time_period < 1 then
 		return false
 	end
@@ -199,17 +229,17 @@ function citadel.go_backward()
 	minetest.after(0.5, function(time_period)
 		citadel.change_time_period(time_period)
 		if citadel.check_player_collided(minetest.get_player_by_name("singleplayer")) then
-			citadel.change_time_period(time_period+1)
+			citadel.change_time_period(time_period + 1)
 			--minetest.civ.highlight("No")
 		end
 	end, time_period)
-	minetest.sound_play("travel", {to_player = "singleplayer"}, true)
+	minetest.sound_play("travel", { to_player = "singleplayer" }, true)
 	return true
 end
 
 local gains_base = {
 	footstep = 0.3,
-	dig = 0.5
+	dig = 0.5,
 }
 function citadel.nodecore_sounds(name)
 	local t = {}
@@ -223,16 +253,16 @@ function citadel.nodecore_sounds(name)
 end
 
 function citadel.register_node(name, sound)
-	minetest.register_node(cc..name, {
+	minetest.register_node("citadel_core:" .. name, {
 		description = name,
-		tiles = {name..".png"},
-		groups = {cracky=2},
+		tiles = { name .. ".png" },
+		groups = { cracky = 2 },
 		sounds = citadel.nodecore_sounds(sound or "stony"),
 	})
-	minetest.register_node(cc..name.."_cracked", {
-		description = name.." cracked",
-		tiles = {name..".png^cracks.png"},
-		groups = {cracky=2},
+	minetest.register_node("citadel_core:" .. name .. "_cracked", {
+		description = name .. " cracked",
+		tiles = { name .. ".png^cracks.png" },
+		groups = { cracky = 2 },
 		sounds = citadel.nodecore_sounds(sound or "stony"),
 	})
 end
@@ -241,7 +271,9 @@ local huds = {}
 local function processhud(player, key, hud)
 	local totaltime = hud.wait + hud.fadetime * 2
 	if hud.time >= totaltime then
-		if hud.id then player:hud_remove(hud.id) end
+		if hud.id then
+			player:hud_remove(hud.id)
+		end
 		huds[key] = nil
 		return
 	end
@@ -265,13 +297,13 @@ local function processhud(player, key, hud)
 	if not hud.id then
 		hud.id = player:hud_add({
 			hud_elem_type = "image",
-			position = {x=0.5, y=0.5},
+			position = { x = 0.5, y = 0.5 },
 			name = "image",
-			scale = {x = -100, y = -100},
+			scale = { x = -100, y = -100 },
 			text = image,
 			direction = 0,
-			alignment = {x=0, y=0},
-			offset = {x=0, y=0},
+			alignment = { x = 0, y = 0 },
+			offset = { x = 0, y = 0 },
 			z_index = 100,
 			style = 2,
 		})
@@ -294,21 +326,20 @@ function citadel.hud(key, image, wait, rate)
 	if old and old.id then
 		-- Move immediate fade-out to a new
 		-- entry that always has a new unique key
-		huds[{}] = old.time >= (old.wait + old.fadetime)
-		and old -- if already fading, keep fading
-		or {
-			id = old.id,
-			time = old.fadetime,
-			image = old.image,
-			fadetime = old.fadetime,
-			wait = 0
-		}
+		huds[{}] = old.time >= (old.wait + old.fadetime) and old -- if already fading, keep fading
+			or {
+				id = old.id,
+				time = old.fadetime,
+				image = old.image,
+				fadetime = old.fadetime,
+				wait = 0,
+			}
 	end
 	huds[key] = {
 		time = 0,
 		image = image,
 		wait = wait or 2,
-		fadetime = rate and rate * 10 or 1
+		fadetime = rate and rate * 10 or 1,
 	}
 end
 
@@ -319,7 +350,7 @@ function citadel.shadow(image, w, h, offset, alpha)
 	offset = offset or 2
 	alpha = alpha or 64
 	local shad = txresc(image .. "^[multiply:#000000FF^[opacity:" .. alpha)
-	local t = {"[combine:" .. (w + offset * 2) .. "x" .. (h + offset * 2)}
+	local t = { "[combine:" .. (w + offset * 2) .. "x" .. (h + offset * 2) }
 	for dx = 0, offset * 2, offset do
 		for dy = 0, offset * 2, offset do
 			if dx ~= offset or dy ~= offset then
@@ -337,16 +368,27 @@ function citadel.endgame()
 	local player = minetest.get_player_by_name("singleplayer")
 	citadel.hud("white", "white_hud.png")
 	data:set_string("endpos", minetest.serialize(player:get_pos()))
-	minetest.place_schematic({x=0,y=-50,z=0}, minetest.get_modpath("citadel_core").."/schems/endroom.mts", nil, nil, true, nil)
-	minetest.add_entity({x=10,y=-47,z=10}, cc.."ghost", minetest.serialize({50}))
-	minetest.after(1, function(player) player:set_pos({x=2,y=-40,z=2}) end, player)
-	minetest.after(3, function(player) player:set_pos({x=3,y=-40,z=3}) end, player)
+	minetest.place_schematic(
+		{ x = 0, y = -50, z = 0 },
+		minetest.get_modpath("citadel_core") .. "/schems/endroom.mts",
+		nil,
+		nil,
+		true,
+		nil
+	)
+	minetest.add_entity({ x = 10, y = -47, z = 10 }, "citadel_core:" .. "ghost", minetest.serialize({ 50 }))
+	minetest.after(1, function(player)
+		player:set_pos({ x = 2, y = -40, z = 2 })
+	end, player)
+	minetest.after(3, function(player)
+		player:set_pos({ x = 3, y = -40, z = 3 })
+	end, player)
 	data:set_string("ended", "yes")
-	minetest.sound_play("crack", {to_player = "singleplayer"}, true)
+	minetest.sound_play("crack", { to_player = "singleplayer" }, true)
 end
 
 function citadel.unique_item(...)
-	local items = {...}
+	local items = { ... }
 	return function(pos)
 		local meta = minetest.get_player_by_name("singleplayer"):get_meta()
 		for i = 1, #items do
@@ -358,12 +400,31 @@ function citadel.unique_item(...)
 end
 
 function citadel.show_credits()
-	local credits =  "credits.png^[resize:512x256"
+	local credits = "credits.png^[resize:512x256"
 	local offset = 45
-	local positions = {{314,156},{314+offset,156},{314+2*offset-3,156},{314+3*offset,156},{334,198},{334+offset+3,198},{334+offset*2+6,198}}
-	for i, artifact_name in pairs({"pendant","coin","totem","scepter","sigil","amulet","tablet"}) do
-		if minetest.get_player_by_name("singleplayer"):get_meta():get_string(cc..artifact_name.."_node") ~= "" then
-			credits = credits.."^[combine:512x256:"..positions[i][1]..","..positions[i][2].."="..minetest.registered_items[cc..artifact_name].inventory_image
+	local positions = {
+		{ 314, 156 },
+		{ 314 + offset, 156 },
+		{ 314 + 2 * offset - 3, 156 },
+		{ 314 + 3 * offset, 156 },
+		{ 334, 198 },
+		{ 334 + offset + 3, 198 },
+		{ 334 + offset * 2 + 6, 198 },
+	}
+	for i, artifact_name in pairs({ "pendant", "coin", "totem", "scepter", "sigil", "amulet", "tablet" }) do
+		if
+			minetest
+				.get_player_by_name("singleplayer")
+				:get_meta()
+				:get_string("citadel_core:" .. artifact_name .. "_node") ~= ""
+		then
+			credits = credits
+				.. "^[combine:512x256:"
+				.. positions[i][1]
+				.. ","
+				.. positions[i][2]
+				.. "="
+				.. minetest.registered_items["citadel_core:" .. artifact_name].inventory_image
 		end
 	end
 	citadel.hud("credits", credits, 10)

@@ -1,4 +1,5 @@
 local player_state = {}
+local data = minetest.get_mod_storage()
 
 minetest.register_on_leaveplayer(function(player)
 	player_state[player:get_player_name()] = nil
@@ -13,13 +14,13 @@ local function musiccheck(player)
 	if not state then
 		state = {}
 		for i, v in ipairs(citadel.sounds) do
-			state[i] =  {
+			state[i] = {
 				id = minetest.sound_play(v.file, {
 					to_player = pname,
 					gain = 0.001,
 					loop = true,
 				}),
-				gain = 0.001
+				gain = 0.001,
 			}
 		end
 		player_state[pname] = state
@@ -34,15 +35,19 @@ local function musiccheck(player)
 	local song = 1
 	local gain = 1
 	for _, ent in pairs(minetest.luaentities) do
-		if ent.name == cc.."ghost" then
+		if ent.name == "citadel_core:" .. "ghost" then
 			if ent._images[1] == 50 then
 				song = 3
-				if ent._audio_duck_time then gain = 1/5 end
+				if ent._audio_duck_time then
+					gain = 1 / 5
+				end
 			else
 				local pos = ent.object:get_pos()
 				if pos and vector.distance(pos, ppos) < 5 then
 					song = 2
-					if ent._audio_duck_time then gain = 1/5 end
+					if ent._audio_duck_time then
+						gain = 1 / 5
+					end
 					break
 				end
 			end
@@ -52,10 +57,10 @@ local function musiccheck(player)
 	-- Mute all songs other than the target one.  Change the target
 	-- song to the desired gain.
 	local function fadeto(stateobj, time, target)
-		if stateobj.gain == target then return end
-		minetest.sound_fade(stateobj.id,
-			math.abs(stateobj.gain - target) / time,
-			target)
+		if stateobj.gain == target then
+			return
+		end
+		minetest.sound_fade(stateobj.id, math.abs(stateobj.gain - target) / time, target)
 		stateobj.gain = target
 	end
 	for i, v in pairs(state) do
