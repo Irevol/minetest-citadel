@@ -1,2 +1,8 @@
 # Ambient light level
 light_level (Ambient Light Level) int 4
+
+# Volume of Citadel in-game music
+citadel_volume_music (Music volume) float 1
+
+# Volume of Citadel in-game voices
+citadel_volume_voice (Voice volume) float 1
