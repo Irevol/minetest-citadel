@@ -1,3 +1,6 @@
+local musicvol = tonumber(minetest.settings:get("citadel_volume_music")) or 1
+if musicvol <= 0 then return end
+
 local player_state = {}
 local data = minetest.get_mod_storage()
 
@@ -57,6 +60,7 @@ local function musiccheck(player)
 	-- Mute all songs other than the target one.  Change the target
 	-- song to the desired gain.
 	local function fadeto(stateobj, time, target)
+		target = target * musicvol
 		if stateobj.gain == target then
 			return
 		end

@@ -1,3 +1,5 @@
+local voicevol = tonumber(minetest.settings:get("citadel_volume_voice")) or 1
+
 local data = minetest.get_mod_storage()
 local dia_timing = {
 	[1] = 6.170,
@@ -67,22 +69,24 @@ minetest.register_entity("citadel_core:" .. "ghost", {
 
 		self._audio_duck_time = dia_timing[diaid]
 
-		-- Play ghost sounds with a spread out spatial effect
-		-- (start_time in MT 5.8+) for a more other-worldy effect
-		local qty = 3
-		local offs = math.random() * math.pi * 2
-		for i = 1, qty do
-			ghost_sound_ids[minetest.sound_play("dia" .. diaid, {
-				pos = vector.offset(
-					self.object:get_pos(),
-					math.sin(i * 2 / qty * math.pi + offs) * 2,
-					1.8,
-					math.cos(i * 2 / qty * math.pi + offs) * 2
-				),
-				gain = 2,
-				start_time = i / qty * 0.05,
-			})] =
-				true
+		if voicevol > 0 then
+			-- Play ghost sounds with a spread out spatial effect
+			-- (start_time in MT 5.8+) for a more other-worldy effect
+			local qty = 3
+			local offs = math.random() * math.pi * 2
+			for i = 1, qty do
+				ghost_sound_ids[minetest.sound_play("dia" .. diaid, {
+					pos = vector.offset(
+						self.object:get_pos(),
+						math.sin(i * 2 / qty * math.pi + offs) * 2,
+						1.8,
+						math.cos(i * 2 / qty * math.pi + offs) * 2
+					),
+					gain = 2 * voicevol,
+					start_time = i / qty * 0.05,
+				})] =
+					true
+			end
 		end
 
 		local img = "text_overlay.png^dia" .. diaid .. ".png^[colorize:#ffffff:200"
