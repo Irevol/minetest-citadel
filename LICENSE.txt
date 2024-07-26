@@ -10,6 +10,9 @@ https://freesound.org/people/zimbot/sounds/244480/
 citadel_core/sounds/stone.ogg (C) 2024 alexarje (CC-BY 4.0)
 https://freesound.org/people/alexarje/sounds/721750/
 
+citadel_core/sounds/chime.ogg (C) 2013 Andromadax24 (CC-BY 4.0)
+https://freesound.org/people/Andromadax24/sounds/186719/
+
 citadel_core/sounds/nodecore_*.ogg are (C) 2018-2023 Magik Eh and Warr1024, MIT License
 citadel_core/sounds/dia*.ogg are (C) 2023 Warr1024, CC-BY 4.0
 
