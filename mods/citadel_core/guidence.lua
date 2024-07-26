@@ -4,6 +4,7 @@ minetest.register_craftitem("citadel_core:" .. "letter", {
 	inventory_image = "letter_inv.png",
 	stack_max = 1,
 	_citadel_inv_slot = 9,
+	_citadel_inv_initial = true,
 	on_use = function(itemstack, user, pointed_thing)
 		minetest.show_formspec(
 			"singleplayer",
@@ -74,10 +75,11 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 end)
 minetest.register_craftitem("citadel_core:" .. "book", {
-	_citadel_inv_slot = 10,
 	description = "Journal",
 	inventory_image = "book_inv.png",
 	stack_max = 1,
+	_citadel_inv_slot = 10,
+	_citadel_inv_initial = true,
 	on_use = function(itemstack, user, pointed_thing)
 		local last_dug = minetest.get_player_by_name("singleplayer"):get_meta():get_string("last_dug")
 		local page = 1

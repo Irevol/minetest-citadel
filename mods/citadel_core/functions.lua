@@ -429,3 +429,25 @@ function citadel.show_credits()
 	end
 	citadel.hud("credits", credits, 10)
 end
+
+do
+	local old_drops = minetest.handle_node_drops
+	function minetest.handle_node_drops(pos, drops, digger, ...)
+		local inv = digger and digger:get_inventory()
+		if not digger then return old_drops(pos, drops, digger, ...) end
+		local skipped = {}
+		local dirty
+		for k, item in pairs(drops) do
+			local name = ItemStack(item):get_name()
+			local def = name and minetest.registered_items[name]
+			local slot = def and def._citadel_inv_slot
+			if slot then
+				inv:set_stack("main", slot, name)
+			else
+				skipped[k] = item
+				dirty = true
+			end
+		end
+		if dirty then return old_drops(pos, skipped, digger, ...) end
+	end
+end
