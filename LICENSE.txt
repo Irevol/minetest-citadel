@@ -1,5 +1,10 @@
 citadel_core/sounds/unbarring.ogg (C) 2009 CGEffex, CC0
-	- https://freesound.org/people/CGEffex/sounds/85973/
+https://freesound.org/people/CGEffex/sounds/85973/
+
+citadel_core/sounds/paper.ogg (C) 2011 barrygusey (CC0)
+https://freesound.org/people/barrygusey/sounds/134918/
+
+
 
 citadel_core/sounds/nodecore_*.ogg are (C) 2018-2023 Magik Eh and Warr1024, MIT License
 citadel_core/sounds/dia*.ogg are (C) 2023 Warr1024, CC-BY 4.0

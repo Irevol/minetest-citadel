@@ -1,9 +1,16 @@
+local function pagesound(player)
+	local name = player and player.get_player_name and player:get_player_name()
+	if (not name) or (name == "") then return end
+	return minetest.sound_play("paper", {to_player = name}, true)
+end
+
 local data = minetest.get_mod_storage()
 minetest.register_craftitem("citadel_core:" .. "letter", {
 	description = "Letter",
 	inventory_image = "letter_inv.png",
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
+		pagesound(user)
 		minetest.show_formspec(
 			"singleplayer",
 			"citadel_core:" .. "letter_form",
@@ -61,6 +68,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			page = 7
 		end
 		meta:set_int("page", page)
+		pagesound(player)
 		minetest.show_formspec("singleplayer", "citadel_core:" .. "book_form", get_page(page))
 	end
 	if fields.foward then
@@ -69,6 +77,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			page = 1
 		end
 		meta:set_int("page", page)
+		pagesound(player)
 		minetest.show_formspec("singleplayer", "citadel_core:" .. "book_form", get_page(page))
 	end
 end)
@@ -92,6 +101,7 @@ minetest.register_craftitem("citadel_core:" .. "book", {
 				page = i
 			end
 		end
+		pagesound(user)
 		minetest.show_formspec("singleplayer", "citadel_core:" .. "book_form", get_page(page))
 	end,
 })
