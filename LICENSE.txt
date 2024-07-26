@@ -7,6 +7,9 @@ https://freesound.org/people/barrygusey/sounds/134918/
 citadel_core/sounds/plantcrackle.ogg (C) 2014 zimbot (CC-BY 4.0)
 https://freesound.org/people/zimbot/sounds/244480/
 
+citadel_core/sounds/stone.ogg (C) 2024 alexarje (CC-BY 4.0)
+https://freesound.org/people/alexarje/sounds/721750/
+
 citadel_core/sounds/nodecore_*.ogg are (C) 2018-2023 Magik Eh and Warr1024, MIT License
 citadel_core/sounds/dia*.ogg are (C) 2023 Warr1024, CC-BY 4.0
 
