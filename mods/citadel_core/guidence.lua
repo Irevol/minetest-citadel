@@ -3,6 +3,7 @@ minetest.register_craftitem("citadel_core:" .. "letter", {
 	description = "Letter",
 	inventory_image = "letter_inv.png",
 	stack_max = 1,
+	_citadel_inv_slot = 9,
 	on_use = function(itemstack, user, pointed_thing)
 		minetest.show_formspec(
 			"singleplayer",
@@ -73,6 +74,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 end)
 minetest.register_craftitem("citadel_core:" .. "book", {
+	_citadel_inv_slot = 10,
 	description = "Journal",
 	inventory_image = "book_inv.png",
 	stack_max = 1,
