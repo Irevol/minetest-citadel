@@ -5,6 +5,19 @@ local dark_green = "civ_white.png^[colorize:#0a3d05:" .. strength
 local dark_brown = "civ_white.png^[colorize:#3c1904:" .. strength
 local brown = "civ_white.png^[colorize:#9d5019:" .. strength
 
+local plantsound = {
+	footstep = {
+		name = "plantcrackle",
+		gain = 0.5
+	},
+	dug = {
+		name = "plantcrackle",
+	},
+	place = {
+		name = "plantcrackle",
+	},
+}
+
 minetest.register_node("citadel_core:" .. "acorn", {
 	description = "Acorn",
 	drawtype = "mesh",
@@ -13,6 +26,7 @@ minetest.register_node("citadel_core:" .. "acorn", {
 	mesh = "acorn.obj",
 	walkable = false,
 	tiles = { brown, dark_brown },
+	sounds = plantsound,
 	groups = { cracky = 2, breakable = 1, unique = 1 },
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y - 1
@@ -41,6 +55,7 @@ minetest.register_node("citadel_core:" .. "big_acorn", {
 	mesh = "big_acorn.obj",
 	walkable = false,
 	tiles = { brown, dark_brown },
+	sounds = plantsound,
 	groups = { cracky = 2, breakable = 1, unique = 1 },
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y - 1
@@ -68,6 +83,7 @@ minetest.register_node("citadel_core:" .. "vine_bud", {
 	paramtype = "light",
 	mesh = "bud.obj",
 	tiles = { green },
+	sounds = plantsound,
 	walkable = false,
 	groups = { cracky = 2, breakable = 1, unique = 1 },
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
@@ -97,6 +113,7 @@ minetest.register_node("citadel_core:" .. "vine", {
 	walkable = false,
 	mesh = "vine.obj",
 	tiles = { green, dark_green },
+	sounds = plantsound,
 	groups = { cracky = 2 },
 })
 minetest.register_node("citadel_core:" .. "bamboo_shoot", {
@@ -107,6 +124,7 @@ minetest.register_node("citadel_core:" .. "bamboo_shoot", {
 	mesh = "bamboo_shoot.obj",
 	walkable = false,
 	tiles = { dark_green },
+	sounds = plantsound,
 	groups = { cracky = 2, breakable = 1, unique = 1 },
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y - 1
@@ -133,6 +151,7 @@ minetest.register_node("citadel_core:" .. "bamboo", {
 	paramtype = "light",
 	mesh = "bamboo.obj",
 	tiles = { dark_green },
+	sounds = plantsound,
 	groups = { cracky = 2 },
 })
 --NOT ENOUGH TIME AAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
