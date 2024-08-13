@@ -41,9 +41,16 @@ minetest.register_on_joinplayer(function(player)
 	})
 	player:set_physics_override({ jump = 1.1 })
 	player:set_properties({ textures = { "blank.png" } })
-	player:hud_set_hotbar_itemcount(10)
-	--make sure you don't end up with permanently activated stones
+	local maxslot = 0;
+	for _, v in pairs(minetest.registered_items) do
+		if v._citadel_inv_slot and v._citadel_inv_slot > maxslot then
+			maxslot = v._citadel_inv_slot
+		end
+	end
 	local inv = player:get_inventory()
+	inv:set_size("main", maxslot)
+	player:hud_set_hotbar_itemcount(maxslot)
+	--make sure you don't end up with permanently activated stones
 	for _, stone_name in pairs({ "foward", "backward", "unlock", "break" }) do
 		if inv:contains_item("main", "citadel_core:" .. stone_name .. "_stone_active") then
 			for i = 1, inv:get_size("main") do
@@ -89,8 +96,16 @@ minetest.register_on_newplayer(function(player)
 	sepia_hud_create(player)
 	citadel.change_time_period(5)
 	player:set_pos({ x = 40, y = 7, z = -5 })
-	player:get_inventory():set_stack("main", 1, "citadel_core:" .. "letter")
-	player:get_inventory():set_stack("main", 2, "citadel_core:" .. "book")
+	local inv = player:get_inventory()
+	for name, def in pairs(minetest.registered_items) do
+		if def._citadel_inv_initial then
+			if def._citadel_inv_slot then
+				inv:set_stack("main", def._citadel_inv_slot, name)
+			else
+				inv:add_item("main", name)
+			end
+		end
+	end
 	player:get_meta():set_int("page", 1)
 end)
 
