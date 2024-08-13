@@ -1,9 +1,16 @@
 local data = minetest.get_mod_storage()
 
+local stonesound = {
+	dug = {
+		name = "stone",
+	},
+}
+
 --foward stone
 minetest.register_craftitem("citadel_core:" .. "foward_stone", {
 	description = "Stone of the Future",
 	inventory_image = "small_stone.png^(foward_overlay.png^[colorize:black)",
+	sounds = stonesound,
 	stack_max = 1,
 	_citadel_inv_slot = 2,
 	on_use = function(itemstack, user, pointed_thing)
@@ -20,12 +27,14 @@ minetest.register_craftitem("citadel_core:" .. "foward_stone", {
 minetest.register_craftitem("citadel_core:" .. "foward_stone_active", {
 	description = "Stone of the Future",
 	inventory_image = "small_stone.png^foward_overlay.png",
+	sounds = stonesound,
 	stack_max = 1,
 	_citadel_inv_slot = 2,
 })
 minetest.register_node("citadel_core:" .. "foward_stone_node", {
 	description = "fsn",
 	tiles = { "small_stone.png^(foward_overlay.png^[colorize:black)" },
+	sounds = stonesound,
 	groups = { cracky = 2, sparkle = 1, breakable = 1, unique = 1 },
 	drawtype = "signlike",
 	paramtype = "light",
@@ -42,6 +51,7 @@ minetest.register_node("citadel_core:" .. "foward_stone_node", {
 minetest.register_craftitem("citadel_core:" .. "backward_stone", {
 	description = "Stone of the Past",
 	inventory_image = "small_stone.png^(backward_overlay.png^[colorize:black)",
+	sounds = stonesound,
 	stack_max = 1,
 	_citadel_inv_slot = 1,
 	on_use = function(itemstack, user, pointed_thing)
@@ -58,12 +68,14 @@ minetest.register_craftitem("citadel_core:" .. "backward_stone", {
 minetest.register_craftitem("citadel_core:" .. "backward_stone_active", {
 	description = "Stone of the Past",
 	inventory_image = "small_stone.png^(backward_overlay.png)",
+	sounds = stonesound,
 	stack_max = 1,
 	_citadel_inv_slot = 1,
 })
 minetest.register_node("citadel_core:" .. "backward_stone_node", {
 	description = "bsn",
 	tiles = { "small_stone.png^(backward_overlay.png^[colorize:black)" },
+	sounds = stonesound,
 	groups = { cracky = 2, sparkle = 1, breakable = 1, unique = 1 },
 	drawtype = "signlike",
 	paramtype = "light",
@@ -140,6 +152,7 @@ end
 minetest.register_craftitem("citadel_core:" .. "unlock_stone", {
 	description = "Stone of Unbarring",
 	inventory_image = "small_stone.png^(unlock.png^[colorize:black)",
+	sounds = stonesound,
 	stack_max = 1,
 	_citadel_inv_slot = 3,
 	on_use = function(itemstack, user, pointed_thing)
@@ -156,12 +169,14 @@ minetest.register_craftitem("citadel_core:" .. "unlock_stone", {
 minetest.register_craftitem("citadel_core:" .. "unlock_stone_active", {
 	description = "Stone of Unsealing",
 	inventory_image = "small_stone.png^(unlock.png)",
+	sounds = stonesound,
 	stack_max = 1,
 	_citadel_inv_slot = 3,
 })
 minetest.register_node("citadel_core:" .. "unlock_stone_node", {
 	description = "usn",
 	tiles = { "small_stone.png^(unlock.png^[colorize:black)" },
+	sounds = stonesound,
 	groups = { cracky = 2, sparkle = 1, breakable = 1, unique = 1 },
 	drawtype = "signlike",
 	paramtype = "light",
@@ -179,6 +194,7 @@ minetest.register_node("citadel_core:" .. "unlock_stone_node", {
 minetest.register_craftitem("citadel_core:" .. "break_stone", {
 	description = "Stone of Destruction",
 	inventory_image = "small_stone.png^(break.png^[colorize:black)",
+	sounds = stonesound,
 	stack_max = 1,
 	_citadel_inv_slot = 4,
 	on_use = function(itemstack, user, pointed_thing)
@@ -210,6 +226,7 @@ minetest.register_craftitem("citadel_core:" .. "break_stone", {
 minetest.register_node("citadel_core:" .. "break_stone_node", {
 	description = "dsn",
 	tiles = { "small_stone.png^(break.png^[colorize:black)" },
+	sounds = stonesound,
 	groups = { cracky = 2, sparkle = 1, breakable = 1, unique = 1 },
 	drawtype = "signlike",
 	paramtype = "light",

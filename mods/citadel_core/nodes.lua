@@ -108,6 +108,21 @@ for i = 1, 12 do
 	})
 end
 
+local function collectable_chime(pos)
+	for i = 0, 9 do
+		local offs = i / 10
+		minetest.sound_play("chime", {
+			pos = vector.add(pos, vector.new(
+				math.random() * 20 - 10,
+				math.random() * 20 - 10,
+				math.random() * 20 - 10
+			)),
+			start_time = offs,
+			gain = 1 - offs
+		}, true)
+	end
+end
+
 --colectables
 local function register_collectable(name, desc)
 	minetest.register_craftitem("citadel_core:" .. name, {
@@ -128,6 +143,7 @@ local function register_collectable(name, desc)
 		selection_box = {
 			type = "wallmounted",
 		},
+		after_dig_node = collectable_chime,
 		_on_unique = citadel.unique_item("citadel_core:" .. name .. "_node"),
 	})
 end
