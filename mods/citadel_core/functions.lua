@@ -189,9 +189,19 @@ end
 
 function citadel.check_player_collided(player)
 	local pos = player:get_pos()
-	for dy = 0, 1.9 do
-		for dx = -0.3, 0.3, 0.6 do
-			for dz = -0.3, 0.3, 0.6 do
+	local hitbox = player:get_properties().collisionbox
+	local function bounds(a, b)
+		a = hitbox[a] + 0.01
+		b = hitbox[b] - 0.01
+		local c = math.ceil(b - a)
+		return a, b, (b - a) / c
+	end
+	local minx, maxx, stepx = bounds(1, 4)
+	local miny, maxy, stepy = bounds(2, 5)
+	local minz, maxz, stepz = bounds(3, 6)
+	for dy = miny, maxy, stepy do
+		for dx = minx, maxx, stepx do
+			for dz = minz, maxz, stepz do
 				local p = vector.offset(pos, dx, dy, dz)
 				if minetest.get_node(p).name ~= "air" then
 					return true
